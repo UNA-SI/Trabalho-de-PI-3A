@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
@@ -34,23 +34,31 @@
             <div class="form-row">
               <div class="col-md-6">
                 <div class="form-label-group">
-                  <input name="pri_nome" type="text" id="firstName" class="form-control" placeholder="First name" required="required" autofocus="autofocus">
+                  <input name="pri_nome" type="text" id="firstName" class="form-control" placeholder="First name" required="required" autofocus="autofocus" minlength="2" maxlength="30">
                   <label for="firstName">Primeiro Nome</label>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-label-group">
-                  <input name="ult_nome" type="text" id="lastName" class="form-control" placeholder="Last name" required="required">
+                  <input name="ult_nome" type="text" id="lastName" class="form-control" placeholder="Last name" required="required" minlength="2" maxlength="30">
                   <label for="lastName">Último Nome</label>
                 </div>
               </div>
             </div>
           </div>
 		  
+		  <!-- EMAIL -->
+		  <div class="form-group">
+            <div class="form-label-group">
+		      <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required="required" minlength="10" maxlength="100">
+              <label for="inputEmail">Endereço de Email</label>
+			</div>
+          </div> 
+		  
 		  <!-- LOGIN -->
           <div class="form-group">
             <div class="form-label-group">
-              <input name="login" type="text" id="CampLogin" class="form-control" placeholder="Login" required="required">
+              <input name="login" type="text" id="CampLogin" class="form-control" placeholder="Login" required="required" minlength="4" maxlength="50">
               <label for="CampLogin">Login</label>
             </div>
           </div>
@@ -60,13 +68,13 @@
             <div class="form-row">
               <div class="col-md-6">
                 <div class="form-label-group">
-                  <input name="senha" type="password" id="inputPassword" class="form-control" placeholder="Password" required="required">
+                  <input name="senha" type="password" id="inputPassword" class="form-control" placeholder="Password" required="required" minlength="6" maxlength="100">
                   <label for="inputPassword">Senha</label>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-label-group">
-                  <input name="conf_senha" type="password" id="confirmPassword" class="form-control" placeholder="Confirm password" required="required">
+                  <input name="conf_senha" type="password" id="confirmPassword" class="form-control" placeholder="Confirm password" required="required" minlength="6" maxlength="100">
                   <label for="confirmPassword">Confirme a Senha</label>
                 </div>
               </div>
