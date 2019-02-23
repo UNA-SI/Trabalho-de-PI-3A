@@ -1,5 +1,5 @@
 <?php
-define("DB_SERVER", "adminstock");
+define("DB_SERVER", "mysql11-farm76.kinghost.net");
 define("DB_USER", "adminstock");
 define("DB_PASSWORD", "Projetopi2019");
 define("DB_DATABASE", "adminstock");
