@@ -1,34 +1,31 @@
 <?php
 require_once("connect.php");
 
-function redirect($local){   // enviar o usuario para a pagina do parametro
-	header("Location: $local");
-}
-
-echo $_POST['pri_nome'];
-echo $_POST['ult_nome'];
-echo $_POST['login'];
-echo $_POST['senha'];
-echo $_POST['conf_senha'];
-
+$pri_nome = $_POST['pri_nome'];
+$ult_nome = $_POST['ult_nome'];
+$login = $_POST['login'];
 $senha = hash('md5', $_POST['senha']);
 
 
-$select = $mysqli->query("SELECT login, senha, pri_nome, ult_nome FROM Usuario WHERE login ='{$_POST['nome']}' AND senha ='{$senha}'");
+$select = $mysqli->query("SELECT login, senha FROM Usuario WHERE login ='$login' AND senha ='$senha'");
 $result = $select->fetch_assoc();
 
-if(!$result)
-{
-	redirect("register.php");
-	echo "<script type='text/javascript'>alert('Essa conta já existe!')</script>";
+if($result != "")
+{ 	
+		echo "<script>
+		alert('Essa conta j\u00e1 existe!');
+		window.location.href='register.php';
+		</script>";
 }
-else{
-	$insert = $mysqli->query("INSERT INTO Usuario (login, senha, pri_nome, ult_nome");
-	$mysqli->query($insert);
-	
-	
-	redirect(".../index.php");
-	echo "<script type='text/javascript'>alert('Conta criada com sucesso!')</script>";
+else{ 
+	$insert = $mysqli->query("INSERT INTO Usuario (login, senha) VALUES('$login', '$senha')");
+	$mysqli->query($insert);	
+    echo "<script>
+	alert('Conta criada com sucesso!');
+	window.location.href='../index.php';
+	</script>";
 }
-$mysqli->close(); // fecha a conecxão */
+	
+$mysqli->close(); // fecha a conecxÃ£o */
 ?>
+	
