@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once("connect.php");
 
 // BUSCADO DADOS DO FORMULÁRIO DA PÁGINA DE CADASTRO E ARMAZENA EM NOVAS VARIAVÉIS
@@ -31,6 +31,6 @@ else{
 	</script>";
 }
 	
-$mysqli->close(); // fecha a conecxÃ£o */
+$mysqli->close(); // fecha a conexao
 ?>
 	
