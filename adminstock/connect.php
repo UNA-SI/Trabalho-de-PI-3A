@@ -1,8 +1,8 @@
 <?php
-define("DB_SERVER", "localhost");
-define("DB_USER", "luigi");
-define("DB_PASSWORD", "calc33XGqqxFfvUj");
-define("DB_DATABASE", "montele_db");
+define("DB_SERVER", "adminstock");
+define("DB_USER", "adminstock");
+define("DB_PASSWORD", "Projetopi2019");
+define("DB_DATABASE", "adminstock");
 
 $mysqli = mysqli_connect(DB_SERVER , DB_USER, DB_PASSWORD, DB_DATABASE);
 if(!$mysqli){
