@@ -17,21 +17,6 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
 
-	<script>
-		var password = document.getElementById("inputPassword")
-		  , confirm_password = document.getElementById("confirmPassword");
-
-		function validatePassword(){
-		  if(password.value != confirm_password.value) {
-			confirm_password.setCustomValidity("As senhas estão diferentes!");
-		  } else {
-			confirm_password.setCustomValidity('');
-		  }
-		}
-
-		password.onchange = validatePassword;
-		confirm_password.onkeyup = validatePassword;
-	</script>
 </head>
 
 <body class="bg-dark">
@@ -99,6 +84,23 @@
     </div>
   </div>
 
+  <!-- VALIDAÇÃO DE CONFIRMAÇÃO DE SENHA -->
+  <script>
+		var password = document.getElementById("inputPassword")
+		  , confirm_password = document.getElementById("confirmPassword");
+
+		function validatePassword(){
+		  if(password.value != confirm_password.value) {
+			confirm_password.setCustomValidity("As senhas estão diferentes!");
+		  } else {
+			confirm_password.setCustomValidity('');
+		  }
+		}
+
+		password.onchange = validatePassword;
+		confirm_password.onkeyup = validatePassword;
+  </script>
+	
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
