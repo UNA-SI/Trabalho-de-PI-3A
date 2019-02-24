@@ -1,4 +1,5 @@
 ﻿<?php
+session_start();
 require_once("../requires/connect.php");
 
 function redirect($local){   // enviar o usuario para a pagina do parametro
@@ -11,7 +12,7 @@ $select = $mysqli->query("SELECT login, pri_nome, ult_nome FROM Usuario WHERE lo
 $result = $select->fetch_assoc();
 
 // CASO O LOGIN ESTEJA CORRETO, OS DADOS SAO ARMAZENADOS EM UMA VARIAVEL DE SESSÃO
-if($select->num_rows === 1){  // checa se o login é valido
+if($select->num_rows != ""){  // checa se o login é valido
 	session_start();
 	$_SESSION['login'] = $_POST['login'];
 	$_SESSION['pri_nome'] = $result['pri_nome'];
