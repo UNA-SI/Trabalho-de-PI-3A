@@ -5,7 +5,7 @@ require_once("connect.php");
 
 $email = $_POST['email'];
 
-$select = $mysqli->query("SELECT pri_nome, ult_nome, email, pass_recovery FROM Usuario WHERE email ='$email'");
+$select = $mysqli->query("SELECT login, pri_nome, ult_nome, email, pass_recovery FROM Usuario WHERE email ='$email'");
 $result = $select->fetch_assoc();
 
 if($result == "")
@@ -48,7 +48,7 @@ else{
 	// DEFINIÇÃO DA MENSAGEM
 	$mail->Subject  = "Troca de Senha"; // Assunto da mensagem
 	$mail->Body .= " Olá ".$result['pri_nome']." ".$result['ult_nome']."<br><br>"; // Texto da mensagem
-	$mail->Body .= "Acesse o link abaixo para realizar a troca da senha <br>"; // Texto da mensagem
+	$mail->Body .= "Seu login é: ".$result['login']." <br> Acesse o link abaixo para realizar a troca da senha <br>"; // Texto da mensagem
 	$mail->Body .= "<a href='http://adminstock.kinghost.net/adminstock/definir_senha.php?recuperar=".$result['pass_recovery']."'>Clique Aqui!</a>"; // Texto da mensagem
 
 	// ENVIO DO EMAIL

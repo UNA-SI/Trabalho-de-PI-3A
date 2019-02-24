@@ -17,14 +17,14 @@ $login = $_POST['login'];
 $senha = hash('md5', $_POST['senha']);
 $pass_recovery = hash('md5', gerarStringAleatoria()); 
 // É REALIZADA UMA BUSCA NO BANCO SE A CONTA JÁ EXISTE
-$select = $mysqli->query("SELECT login, senha FROM Usuario WHERE login ='$login' AND senha ='$senha'");
+$select = $mysqli->query("SELECT email FROM Usuario WHERE email='$email'");
 $result = $select->fetch_assoc();
 
 // CASO ELA EXISTA, O USUÁRIO É INFORMADO E REDIRECIONADO PARA A PÁGINA DE REGISTRO NOVAMENTE
 if($result != "")
 { 	
 		echo "<script>
-		alert('Essa conta j\u00e1 existe!');
+		alert('Esse email j\u00e1 est\u00e1 cadastrado!');
 		window.location.href='register.html';
 		</script>";
 }

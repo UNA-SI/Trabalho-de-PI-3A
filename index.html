@@ -26,19 +26,19 @@
       <div class="card-header"><strong>AdminStock</strong></div>
       <div class="card-body">
         <form method="POST" action="adminstock/valida.php">
-          
+          		  
 		  <!-- LOGIN -->
 		  <div class="form-group">
             <div class="form-label-group">
-			   <input name="login" type="text" id="login" class="form-control" placeholder="Login" required="required" autofocus="autofocus" minlength="4">
-              <label for="inputLogin">Login</label>
+			   <input name="login" type="text" id="CampLogin" class="form-control" placeholder="Login" required="required" minlength="4" maxlength="50" autocomplete="off">
+               <label for="CampLogin">Login</label>
             </div>
           </div>
 		  
 		  <!-- SENHA -->
           <div class="form-group">
             <div class="form-label-group">
-              <input name="senha" type="password" id="inputPassword" class="form-control" placeholder="Password" required="required" minlength="6">
+				<input name="senha" type="password" id="inputPassword" class="form-control" placeholder="Password" required="required" minlength="6" maxlength="100" autocomplete="off">
               <label for="inputPassword">Senha</label>
             </div>
           </div>
