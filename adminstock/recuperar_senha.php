@@ -5,7 +5,7 @@ require_once("connect.php");
 
 $email = $_POST['email'];
 
-$select = $mysqli->query("SELECT email FROM Usuario WHERE email ='$email'");
+$select = $mysqli->query("SELECT pri_nome, ult_nome, email, pass_recovery FROM Usuario WHERE email ='$email'");
 $result = $select->fetch_assoc();
 
 if($result == "")
@@ -47,10 +47,9 @@ else{
 
 	// DEFINIÇÃO DA MENSAGEM
 	$mail->Subject  = "Troca de Senha"; // Assunto da mensagem
-	$mail->Body .= " Nome: ".$_POST['nome']."<br>"; // Texto da mensagem
-	$mail->Body .= " E-mail: ".$_POST['email']."<br>"; // Texto da mensagem
-	$mail->Body .= " Assunto: ".$_POST['assunto']."<br>"; // Texto da mensagem
-	$mail->Body .= " Mensagem: ".nl2br($_POST['mensagem'])."<br>"; // Texto da mensagem
+	$mail->Body .= " Olá ".$result['pri_nome']." ".$result['ult_nome']."<br><br>"; // Texto da mensagem
+	$mail->Body .= "Acesse o link abaixo para realizar a troca da senha <br>"; // Texto da mensagem
+	$mail->Body .= "<a href='http://adminstock.kinghost.net/adminstock/definir_senha.php?recuperar=".$result['pass_recovery']."'>Clique Aqui!</a>"; // Texto da mensagem
 
 	// ENVIO DO EMAIL
 	$enviado = $mail->Send();
@@ -59,9 +58,15 @@ else{
 
 	// Exibe uma mensagem de resultado do envio (sucesso/erro)
 	if ($enviado) {
-	  echo "E-mail enviado com sucesso!";
+		echo "<script>
+		alert('E-mail enviado com sucesso!');
+		window.location.href='../index.html';
+		</script>";
 	} else {
-	  echo "Não foi possível enviar o e-mail.";
-	  echo "<b>Detalhes do erro:</b> " . $mail->ErrorInfo;
+		echo "<script>
+		alert('Não foi possível enviar o e-mail, tente novamente!');
+		window.location.href='forgot-password.html';
+		</script>";
+	    //echo "<b>Detalhes do erro:</b> " . $mail->ErrorInfo; // DEBUG
 	}
 }
