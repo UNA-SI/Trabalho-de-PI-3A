@@ -3,7 +3,7 @@ require_once("../requires/connect.php");
 mysqli_set_charset( $mysqli, 'utf8'); // MUDA OS DADOS DO BANCO PARA UTF-8 - **IMPORTANTE**
 session_start();
 
-if($_SESSION['login'] == "") // checa se a SESSION expirou
+if($_SESSION['login'] == "" && $_SESSION['permissao'] == "") // checa se a SESSION expirou
 {
   	echo "<script>
 			alert('Login expirado, entre novamente.');
@@ -70,7 +70,7 @@ if($_SESSION['login'] == "") // checa se a SESSION expirou
 
   <div id="wrapper">
 
-	<?php require_once('menu.html');?>
+	<?php require_once('menu.php');?>
 
     <div id="content-wrapper">
 
@@ -177,7 +177,7 @@ if($_SESSION['login'] == "") // checa se a SESSION expirou
         <div class="modal-body">Selecione <b>Sair</b> abaixo para finalizar sua sessão atual.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-          <a class="btn btn-primary" href="../../index.html">Sair</a>
+          <a class="btn btn-primary" href="finalizar_session.php">Sair</a>
         </div>
       </div>
     </div>
