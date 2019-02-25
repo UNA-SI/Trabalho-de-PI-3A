@@ -28,6 +28,18 @@ if($result != "")
 		window.location.href='register.html';
 		</script>";
 }
+// BUSCA NO BANCO SE UM LOGIN E SENHA IDENTICO EXISTE
+$select = $mysqli->query("SELECT login, senha FROM Usuario WHERE login = '$login' AND senha = '$senha'");
+$result = $select->fetch_assoc();
+
+// CASO ELA EXISTA, O USUÁRIO É INFORMADO E REDIRECIONADO PARA A PÁGINA DE REGISTRO NOVAMENTE
+if($result != "")
+{ 	
+		echo "<script>
+		alert('Essa conta j\u00e1 est\u00e1 cadastrada!');
+		window.location.href='register.html';
+		</script>";
+}
 
 // CASO NÃO EXISTA, OS NOVOS DADOS SÃO INSERIDOS E O USUÁRIO RETORNA A TELA DE LOGIN
 else{ 

@@ -11,11 +11,11 @@ if($_SESSION['login'] == "" && $_SESSION['permissao'] == "")
 		  </script>";
 }
 // Verifica permissão do usuário ao acesso da página
-if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['permissao'] != "3") 
+if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2") 
 {
   	echo "<script>
 			alert('Voc\u00ea n\u00e3o tem acesso a essa p\u00e1gina, fa\u00e7a o login para poder acessar.');
-			window.location.href='../../index.html';
+			window.location.href='../../tables.html';
 		  </script>";
 }
 ?>
@@ -31,7 +31,7 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>AdminStock - Estoque</title>
+  <title>AdminStock - Cadastrar Produto</title>
 
   <!-- Custom fonts for this template-->
   <link href="../requires/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -54,7 +54,7 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
 
   <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-    <a class="navbar-brand mr-1" href="#">AdminStock</a>
+    <a class="navbar-brand mr-1"  href="#">AdminStock</a>
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
@@ -76,87 +76,72 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
     </ul>
   </nav>
 
-  <div id="wrapper">
+	<div id="wrapper">
 
-	<?php require_once('menu.php');?>
+		<?php require_once('menu.php');?>
 
-    <div id="content-wrapper">
+		<div id="content-wrapper">
+			<div class="container-fluid">
 
-      <div class="container-fluid">
+				<!-- Breadcrumbs-->
+				<ol class="breadcrumb">
+				  <li class="breadcrumb-item">Cadastro de Produto</li>
+				</ol>
 
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">Estoque</li>
-        </ol>
+				<!-- Page Content -->
+				<h1>Cadastrar Produto</h1>
+				<hr>
+				<div class="container">
+					<div class="card card-register mx-auto mt-8">
+						<div class="card-header">Novo Produto</div>
+						<div class="card-body">
+							<form method="POST" action="insert_produto.php">
+								<div class="form-group">
+									<div class="form-row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<input name="cod_prod" class="form-control" placeholder="Cód. do Produto" required>
+											</div><br>
+											<div class="form-group">
+												<input name="nom_prod" class="form-control" placeholder="Nome do Produto" required>
+											</div><br>
+											<div class="form-group">									
+												<select name="cat_prod" class="form-control" required>
+												  <option value="">Categoria</option>
+												  <option value="Informática" >Informática</option>
+												</select>
+											</div><br>
+											<div class="form-group">
+												<input name="cod_forn" class="form-control" placeholder="Cod. Fornecedo" required>
+											</div><br>
+											<div class="form-group">
+												<input name="val_pag" class="form-control" placeholder="Val. Pago" required>
+											</div><br>
+											<div class="form-group">
+												<input name="val_vend" class="form-control" placeholder="Val. Venda" required>
+											</div><br>
+											<div class="form-group">
+												<input name="qtd_prod" class="form-control" placeholder="Qtd. Produto" required>
+											</div>
+										</div>
+									</div>
+								</div>
+								<input type="submit" class="btn btn-primary btn-block" value="Cadastrar">
+							</form>
+						</div>					
+					</div>
+				</div>
+			</div>
+		</div>
 
-        <!-- DataTables Example -->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-table"></i>
-            Estoque</div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered table-striped table-hover" id="dataTable">
-                <thead>
-                  <tr>
-                    <th>Cód. do Produto</th>
-                    <th>Nome</th>
-                    <th>Categoria</th>
-                    <th>Cód. Fornecedor</th>
-                    <th>Val. Pago</th>
-                    <th>Val. Venda</th>
-					<th>Qtd. Produto</th>
-                  </tr>
-                </thead>
-                <tfoot>
-                  <tr>
-                    <th>Cód. do Produto</th>
-                    <th>Nome</th>
-                    <th>Categoria</th>
-                    <th>Cód. Fornecedor</th>
-                    <th>Val. Pago</th>
-                    <th>Val. Venda</th>
-					<th>Qtd. Produto</th>
-                  </tr>
-                </tfoot>
-                <tbody>
-				<?php 
-					$select = "SELECT `Codigo Produto` as cod_prod, `Nome Produto` as nom_pro, `Categoria Produto` as cat_pro, `Codigo Fornecedor` as cod_forn,	`Valor Pago` as val_pag, `Valor Venda` as val_vend, `Quantidade Produto` as qtd_prod
-					FROM Produto
-					ORDER BY 1";
-					$result = $mysqli->query($select);
-			
-					while($row = $result->fetch_assoc()){
-						echo "		
-						<tr>
-							<td>".$row['cod_prod']."</td>
-							<td>".$row['nom_pro']."</td>
-							<td>".$row['cat_pro']."</td>
-							<td>".$row['cod_forn']."</td>
-							<td>".$row['val_pag']."</td>
-							<td>".$row['val_vend']."</td>
-							<td>".$row['qtd_prod']."</td>
-						</tr>";						  
-					}
-				
-				?>       
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <!-- /.container-fluid -->
-
-      <!-- Sticky Footer -->
-      <footer class="sticky-footer">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span class="nome-footer">AdminStock 2019</span>
-          </div>
-        </div>
-      </footer>
+		  <!-- Sticky Footer -->
+		  <footer class="sticky-footer">
+			<div class="container my-auto">
+			  <div class="copyright text-center my-auto">
+				<span class="nome-footer">AdminStock 2019</span>
+			  </div>
+			</div>
+		  </footer>
 
     </div>
     <!-- /.content-wrapper -->

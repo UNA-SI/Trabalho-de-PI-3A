@@ -27,7 +27,7 @@
       <div class="card-body">
         
 		<!-- FORM -->
-		<form method="POST" action="trocar_senha.php" >
+		<form method="POST" action="update_senha.php" >
           
 		  <!-- SENHA -->
           <div class="form-group">
