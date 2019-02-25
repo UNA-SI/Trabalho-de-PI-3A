@@ -2,11 +2,19 @@
 require_once("../requires/connect.php");
 mysqli_set_charset( $mysqli, 'utf8'); // MUDA OS DADOS DO BANCO PARA UTF-8 - **IMPORTANTE**
 session_start();
-
-if($_SESSION['login'] == "" && $_SESSION['permissao'] == "") // checa se a SESSION expirou
+// checa se a SESSION expirou
+if($_SESSION['login'] == "" && $_SESSION['permissao'] == "") 
 {
   	echo "<script>
 			alert('Login expirado, entre novamente.');
+			window.location.href='../../index.html';
+		  </script>";
+}
+// Verifica permissão do usuário ao acesso da página
+if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['permissao'] != "3") 
+{
+  	echo "<script>
+			alert('Voc\u00ea n\u00e3o tem acesso a essa p\u00e1gina, fa\u00e7a o login para poder acessar.');
 			window.location.href='../../index.html';
 		  </script>";
 }
