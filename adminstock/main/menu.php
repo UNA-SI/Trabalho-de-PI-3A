@@ -15,7 +15,6 @@
 			<i class="fas fa-arrow-right"></i>
 			<span>Cadastrar Produto</span>
 		</a>
-      </li>
 	  </li>
 	  <li class="nav-item">
         <a class="nav-link" href="tables.php">
