@@ -1,5 +1,4 @@
 ﻿<?php
-session_start();
 require_once("../requires/connect.php");
 
 function redirect($local){   // enviar o usuario para a pagina do parametro
@@ -8,7 +7,7 @@ function redirect($local){   // enviar o usuario para a pagina do parametro
 
 $senha = hash('md5', $_POST['senha']);
 
-$select = $mysqli->query("SELECT login, pri_nome, ult_nome, permissao FROM Usuario WHERE login ='{$_POST['login']}' AND senha ='$senha'");
+$select = $mysqli->query("SELECT login, pri_nome, ult_nome, permissao FROM usuario WHERE login ='{$_POST['login']}' AND senha ='$senha'");
 $result = $select->fetch_assoc();
 
 // CASO O LOGIN ESTEJA CORRETO, OS DADOS SAO ARMAZENADOS EM UMA VARIAVEL DE SESSÃO

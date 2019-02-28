@@ -46,7 +46,7 @@
               </div>
             </div>
           </div>
-		  <input type="hidden" name="pass_recovery" value="<?php echo $_GET['recuperar']; ?>"/>
+		  <input type="hidden" name="recuperar_senha" value="<?php echo $_GET['zeqe0eZoda28goklt3W0']; ?>"/>
 		  <input type="submit" class="btn btn-primary btn-block" value="Trocar Senha">
 		  
         </form>

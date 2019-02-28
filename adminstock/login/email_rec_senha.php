@@ -5,15 +5,15 @@ require_once("../requires/connect.php");
 
 $email = $_POST['email'];
 
-$select = $mysqli->query("SELECT login, pri_nome, ult_nome, email, pass_recovery FROM Usuario WHERE email ='$email'");
+$select = $mysqli->query("SELECT login, pri_nome, ult_nome, email, recuperar_senha FROM usuario WHERE email ='$email'");
 $result = $select->fetch_assoc();
 
 if($result == "")
 { 	
-		echo "<script>
-		alert('Seu email n\u00e3o est\u00e1 cadastrado na base de dados!');
-		window.location.href='forgot-password.html';
-		</script>";
+	echo "<script>
+	alert('Seu email n\u00e3o est\u00e1 cadastrado na base de dados!');
+	window.location.href='trocar_senha.html';
+	</script>";
 }
 else{
 
@@ -49,7 +49,7 @@ else{
 	$mail->Subject  = "Troca de Senha"; // Assunto da mensagem
 	$mail->Body .= " Olá ".$result['pri_nome']." ".$result['ult_nome']."<br><br>"; // Texto da mensagem
 	$mail->Body .= "Seu login é: ".$result['login']." <br> Acesse o link abaixo para realizar a troca da senha <br>"; // Texto da mensagem
-	$mail->Body .= "<a href='http://adminstock.kinghost.net/adminstock/login/definir_senha.php?recuperar=".$result['pass_recovery']."'>Clique Aqui!</a>"; // Texto da mensagem
+	$mail->Body .= "<a href='http://adminstock.kinghost.net/adminstock/login/definir_senha.php?zeqe0eZoda28goklt3W0=".$result['recuperar_senha']."'>Clique Aqui!</a>"; // Texto da mensagem
 
 	// ENVIO DO EMAIL
 	$enviado = $mail->Send();
@@ -65,7 +65,7 @@ else{
 	} else {
 		echo "<script>
 		alert('Não foi possível enviar o e-mail, tente novamente!');
-		window.location.href='forgot-password.html';
+		window.location.href='trocar_senha.html';
 		</script>";
 	    //echo "<b>Detalhes do erro:</b> " . $mail->ErrorInfo; // DEBUG
 	}
