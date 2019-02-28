@@ -3,12 +3,18 @@
     <?php if($_SESSION['permissao'] == 1 || $_SESSION['permissao'] == 2 || $_SESSION['permissao'] == 3) {?>
 	<ul class="sidebar navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="tables.php">
-			<i class="fas fa-fw fa-table"></i>
+        <a class="nav-link" href="consulta_estoque.php">
+			<i class="fas fa-eye"></i>
 			<span>Visualizar Estoque</span>
 		</a>
       </li>
 	<?php }?>
+	  <li class="nav-item">
+        <a class="nav-link" href="#">
+			<i class="fas fa-exchange-alt"></i>
+			<span>Histórico de Movimentação</span>
+		</a>
+      </li>		
 	<?php if($_SESSION['permissao'] == 1 || $_SESSION['permissao'] == 2) {?>
 	  <li class="nav-item">
         <a class="nav-link" href="cad_produto.php">

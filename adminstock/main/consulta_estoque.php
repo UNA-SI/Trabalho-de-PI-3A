@@ -100,28 +100,21 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
                 <thead>
                   <tr>
                     <th>Cód. do Produto</th>
-                    <th>Nome</th>
+                    <th>Desc. do Produto</th>
                     <th>Categoria</th>
-                    <th>Cód. Fornecedor</th>
-                    <th>Val. Pago</th>
-                    <th>Val. Venda</th>
-					<th>Qtd. Produto</th>
+					<th>Última Movimentação</th>
+                    <th>Saldo em Estoque</th>
                   </tr>
                 </thead>
-                <tfoot>
-                  <tr>
-                    <th>Cód. do Produto</th>
-                    <th>Nome</th>
-                    <th>Categoria</th>
-                    <th>Cód. Fornecedor</th>
-                    <th>Val. Pago</th>
-                    <th>Val. Venda</th>
-					<th>Qtd. Produto</th>
-                  </tr>
-                </tfoot>
                 <tbody>
+				<tr>
+					<td>1</td>
+					<td>Monitor Asus 24' 60 Hz</td>
+					<td>Monitor Asus</td>
+					<td>28/02/2019 13:50:25</td>
+					<td>37</td>
 				<?php 
-					$select = "SELECT `Codigo Produto` as cod_prod, `Nome Produto` as nom_pro, `Categoria Produto` as cat_pro, `Codigo Fornecedor` as cod_forn,	`Valor Pago` as val_pag, `Valor Venda` as val_vend, `Quantidade Produto` as qtd_prod
+			/*		$select = "SELECT `Codigo Produto` as cod_prod, `Nome Produto` as nom_pro, `Categoria Produto` as cat_pro, `Codigo Fornecedor` as cod_forn,	`Valor Pago` as val_pag, `Valor Venda` as val_vend, `Quantidade Produto` as qtd_prod
 					FROM Produto
 					ORDER BY 1";
 					$result = $mysqli->query($select);
@@ -138,7 +131,7 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
 							<td>".$row['qtd_prod']."</td>
 						</tr>";						  
 					}
-				
+				*/
 				?>       
                 </tbody>
               </table>
