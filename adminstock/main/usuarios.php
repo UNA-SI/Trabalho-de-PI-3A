@@ -46,7 +46,11 @@ if($_SESSION['permissao'] != "1")
 		.nome-footer{
 			font-weight: bold;
 			font-size: 1.5rem;
-		}	
+		}
+		#alinhamento
+		{
+			vertical-align:middle;
+		}
 	</style>	
 </head>
 
@@ -136,11 +140,11 @@ if($_SESSION['permissao'] != "1")
 						}
 						echo "		
 						<tr>
-							<td>".$row['login']."</td>
-							<td>".$row['pri_nome']."</td>
-							<td>".$row['ult_nome']."</td>
-							<td>".$row['email']."</td>
-							<td>".$permissao."</td>
+							<td id='alinhamento'>".$row['login']."</td>
+							<td id='alinhamento'>".$row['pri_nome']."</td>
+							<td id='alinhamento'>".$row['ult_nome']."</td>
+							<td id='alinhamento'>".$row['email']."</td>
+							<td id='alinhamento'>".$permissao."</td>
 							<form method='POST' action='interacao_bd/update_permissao.php'?>
 								<td>
 									<div class='form-group'>			
