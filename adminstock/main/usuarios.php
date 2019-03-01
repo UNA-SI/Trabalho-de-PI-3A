@@ -105,6 +105,7 @@ if($_SESSION['permissao'] != "1")
                     <th>Email</th>
 					<th>Permissão Atual</th>
 					<th>Alterar Permissão</th>
+					<th>Apagar Usuário</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -154,6 +155,7 @@ if($_SESSION['permissao'] != "1")
 								</td>
 								<input name='id' type=hidden value='".$row['id']."' />
 							</form>
+							<td align='center'><a onclick='deletaUsuario(".$row['id'].");' style='cursor: pointer;' class='fas fa-user-times fa-3x'></a></td>
 						</tr>";						  
 					}				
 				?>       
@@ -213,6 +215,13 @@ if($_SESSION['permissao'] != "1")
 				return false;
 			}
 		}
+		
+		function deletaUsuario(link) {
+		var confirma = window.confirm("Tem certeza que deseja deletar esse usu\u00e1rio?");
+		if (confirma) {
+			window.location.href = "interacao_bd/delete_usuario.php?BoK2sW7fUfiDLs5Zugof="+link;
+		}
+	}
 	</script>
 	
   <!-- Bootstrap core JavaScript-->
