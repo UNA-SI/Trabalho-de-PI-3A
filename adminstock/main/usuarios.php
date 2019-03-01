@@ -11,11 +11,11 @@ if($_SESSION['login'] == "" && $_SESSION['permissao'] == "")
 		  </script>";
 }
 // Verifica permissão do usuário ao acesso da página
-if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2") 
+if($_SESSION['permissao'] != "1") 
 {
   	echo "<script>
-			alert('Voc\u00ea n\u00e3o tem acesso a essa p\u00e1gina, fa\u00e7a o login para poder acessar.');
-			window.location.href='../../tables.html';
+			alert('Voc\u00ea n\u00e3o tem acesso a essa p\u00e1gina, fale com o administrador para poder acessar.');
+			window.location.href='../../index.html';
 		  </script>";
 }
 ?>
@@ -31,7 +31,7 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>AdminStock - Cadastrar Produto</title>
+  <title>AdminStock - Usuários</title>
 
   <!-- Custom fonts for this template-->
   <link href="../requires/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -54,7 +54,7 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 
   <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-    <a class="navbar-brand mr-1"  href="#">AdminStock</a>
+    <a class="navbar-brand mr-1" href="consulta_estoque.php">AdminStock</a>
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
@@ -69,65 +69,111 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
           <i class="fas fa-user-circle fa-fw"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">        
-		  <a class="dropdown-item" href="../login/forgot-password.html">Mudar Senha</a>
+		  <a class="dropdown-item" href="../login/trocar_senha.html">Mudar Senha</a>
 		  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Sair</a>
         </div>
       </li>	  
     </ul>
   </nav>
 
-	<div id="wrapper">
+  <div id="wrapper">
 
-		<?php require_once('menu.php');?>
+	<?php require_once('menu.php');?>
 
-		<div id="content-wrapper">
-			<div class="container-fluid">
+    <div id="content-wrapper">
 
-				<!-- Breadcrumbs-->
-				<ol class="breadcrumb">
-				  <li class="breadcrumb-item">Cadastro de Produto</li>
-				</ol>
+      <div class="container-fluid">
 
-				<!-- Page Content -->
-				<h1>Cadastrar Produto</h1>
-				<hr>
-				<div class="container">
-					<div class="card card-register mx-auto mt-8">
-						<div class="card-header">Novo Produto</div>
-						<div class="card-body">
-							<form method="POST" action="interacao_bd/insert_produto.php">
-								<div class="form-group">
-									<div class="form-row">
-										<div class="col-md-12">
-											<div class="form-group">
-												<input name="desc_prod" class="form-control" placeholder="Desc. do Produto" required>
-											</div><br>
-											<div class="form-group">									
-												<select name="cat_prod" class="form-control" required>
-												  <option value="">Categoria</option>
-												  <option value="Informática" >Mouse DELL</option>
-												  <option value="Informática" >Mouse HP</option>
-												</select>
-											</div>									
-										</div>
-									</div>
-								</div>
-								<input type="submit" class="btn btn-primary btn-block" value="Cadastrar">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Estoque</li>
+        </ol>
+
+        <!-- DataTables Example -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+            Estoque</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable">
+                <thead>
+                  <tr>
+                    <th>Login</th>
+                    <th>Primeiro Nome</th>
+					<th>Último Nome</th>
+                    <th>Email</th>
+					<th>Permissão Atual</th>
+					<th>Alterar Permissão</th>
+                  </tr>
+                </thead>
+                <tbody>
+				<?php 
+				
+					
+					
+					$select = "SELECT id, login, pri_nome, ult_nome, email, permissao
+					FROM usuario";
+					$result = $mysqli->query($select);
+			
+					while($row = $result->fetch_assoc()){	
+						
+						switch($row['permissao'])
+						{
+							case 1: 
+								$permissao = 'Total';
+								break;
+							case 2:
+								$permissao = 'Média';
+								break;
+							case 3:
+								$permissao = 'Mínima';
+								break;
+							case 4:
+								$permissao = 'Sem Acesso';
+								break;
+						}
+						echo "		
+						<tr>
+							<td>".$row['login']."</td>
+							<td>".$row['pri_nome']."</td>
+							<td>".$row['ult_nome']."</td>
+							<td>".$row['email']."</td>
+							<td>".$permissao."</td>
+							<form method='POST' action='interacao_bd/update_permissao.php'?>
+								<td>
+									<div class='form-group'>			
+										<select class='form-control' onchange='submitForm(this.form);' name='alt_perm'>								
+											<option value=''>Permissão</option>
+											<option value='1'>Total</option>
+											<option value='2'>Média</option>
+											<option value='3'>Mínima</option>
+											<option value='4'>Nenhuma</option>
+										</select>
+									</div>					
+								</td>
+								<input name='id' type=hidden value='".$row['id']."' />
 							</form>
-						</div>					
-					</div>
-				</div>
-			</div>
-		</div>
+						</tr>";						  
+					}				
+				?>       
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
 
-		  <!-- Sticky Footer -->
-		  <footer class="sticky-footer">
-			<div class="container my-auto">
-			  <div class="copyright text-center my-auto">
-				<span class="nome-footer">AdminStock 2019</span>
-			  </div>
-			</div>
-		  </footer>
+      </div>
+      <!-- /.container-fluid -->
+
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span class="nome-footer">AdminStock 2019</span>
+          </div>
+        </div>
+      </footer>
 
     </div>
     <!-- /.content-wrapper -->
@@ -159,6 +205,16 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
     </div>
   </div>
 
+	<script>
+		function submitForm(form){
+			if(confirm('Tem certeza que deseja alterar a permiss\u00e3o deste usu\u00e1rio?')){
+				form.submit();
+			} else {
+				return false;
+			}
+		}
+	</script>
+	
   <!-- Bootstrap core JavaScript-->
   <script src="../requires/vendor/jquery/jquery.min.js"></script>
   <script src="../requires/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

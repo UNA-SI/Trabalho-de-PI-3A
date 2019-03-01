@@ -17,7 +17,7 @@ if($select->num_rows != ""){  // checa se o login é valido
 	$_SESSION['pri_nome'] = $result['pri_nome'];
 	$_SESSION['ult_nome'] = $result['ult_nome'];
 	$_SESSION['permissao'] = $result['permissao'];
-	redirect("../main/tables.php");
+	redirect("../main/consulta_estoque.php");
 }else{	
 	echo "<script>
 			alert('Login ou senha incorretos. Tente Novamente.');

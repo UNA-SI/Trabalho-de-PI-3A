@@ -31,7 +31,7 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>AdminStock - Estoque</title>
+  <title>AdminStock - Consultar Estoque</title>
 
   <!-- Custom fonts for this template-->
   <link href="../requires/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -114,21 +114,21 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
 					<td>28/02/2019 13:50:25</td>
 					<td>37</td>
 				<?php 
-			/*		$select = "SELECT `Codigo Produto` as cod_prod, `Nome Produto` as nom_pro, `Categoria Produto` as cat_pro, `Codigo Fornecedor` as cod_forn,	`Valor Pago` as val_pag, `Valor Venda` as val_vend, `Quantidade Produto` as qtd_prod
-					FROM Produto
+			/*		$select = "SELECT 
+					FROM 
 					ORDER BY 1";
 					$result = $mysqli->query($select);
 			
 					while($row = $result->fetch_assoc()){
 						echo "		
 						<tr>
-							<td>".$row['cod_prod']."</td>
-							<td>".$row['nom_pro']."</td>
-							<td>".$row['cat_pro']."</td>
-							<td>".$row['cod_forn']."</td>
-							<td>".$row['val_pag']."</td>
-							<td>".$row['val_vend']."</td>
-							<td>".$row['qtd_prod']."</td>
+							<td>".."</td>
+							<td>".."</td>
+							<td>".."</td>
+							<td>".."</td>
+							<td>".."</td>
+							<td>".."</td>
+							<td>".."</td>
 						</tr>";						  
 					}
 				*/

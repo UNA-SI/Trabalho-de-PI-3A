@@ -1,5 +1,5 @@
 ﻿<?php
-require_once("../requires/connect.php");
+require_once("../../requires/connect.php");
 // A ORDEM DOS COMANDOS É IMPORTANTE PARA O CORRETO FUNCIONAMENTO
 ini_set('default_charset', 'UTF-8'); // FAZ O BANCO ACEITAR ACENTUAÇÃO AO INSERIR ** IMPORTANTE **
 mysqli_set_charset($mysqli, 'utf8'); // MUDA OS DADOS DO BANCO PARA UTF-8 - **IMPORTANTE**
@@ -20,12 +20,12 @@ $qtd_prod = $_POST['qtd_prod'];
     if ($mysqli->query($insert) === TRUE) {
 	echo "<script>
 	alert('Dados inseridos com sucesso!');
-	window.location.href='cad_produto.php';
+	window.location.href='../cad_produto.php';
 	</script>";
 	}else{
 		echo "<script>
 		alert('Ocorreu um erro ao cadastrar o produto, tente novamente!');
-		window.location.href='cad_produto.php';
+		window.location.href='../cad_produto.php';
 		</script>";
 	//	echo "Error updating record: " . $mysqli->error;
 	}
