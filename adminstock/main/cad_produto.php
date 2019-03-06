@@ -78,6 +78,7 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 
 	<div id="wrapper">
 
+		<!-- Menu lateral -->
 		<?php require_once('menu.php');?>
 
 		<div id="content-wrapper">
@@ -99,15 +100,47 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 								<div class="form-group">
 									<div class="form-row">
 										<div class="col-md-12">
+											<!-- DESCRIÇÃO DO PRODUTO -->
 											<div class="form-group">
 												<input name="desc_prod" class="form-control" placeholder="Desc. do Produto" required>
 											</div><br>
-											<div class="form-group">									
-												<select name="cat_prod" class="form-control" required>
-												  <option value="">Categoria</option>
-												  <option value="Informática" >Mouse DELL</option>
-												  <option value="Informática" >Mouse HP</option>
+											<!-- CATEGORIA DO PRODUTO -->																																
+											<div class="form-group">												
+												<select name="tipo_op" class="form-control" required>
+												  <option value="">Categoria do Produto</option>
+												<?php 
+													$select = "SELECT cod_categoria, desc_categoria
+													FROM categoria
+													ORDER BY cod_categoria";
+													$result = $mysqli->query($select);
+																																																
+													while($row = $result->fetch_assoc()){
+														echo "<option value=".$row['desc_categoria'].">".$row['desc_categoria']."</option>";	
+													}
+												?>
 												</select>
+
+												<?php /*
+													$select = "SELECT cod_categoria, desc_categoria
+													FROM categoria
+													ORDER BY cod_categoria";
+													$result = $mysqli->query($select);
+													
+													echo "<input list='categoria' name='cat_prod' class='form-control' pattern='";																																				
+													while($row = $result->fetch_assoc()){
+														echo "".$row['desc_categoria']."|";															
+													}													
+													echo "' required>";																																																																				
+													echo "<datalist id='categoria'>";
+
+													$result = $mysqli->query($select);
+													while($row = $result->fetch_assoc()){
+														echo "<option value=".$row['desc_categoria']."/>";															
+													}	
+													echo "</datalist>";
+													*/
+												?>
+												
 											</div>									
 										</div>
 									</div>
@@ -120,14 +153,14 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 			</div>
 		</div>
 
-		  <!-- Sticky Footer -->
-		  <footer class="sticky-footer">
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer">
 			<div class="container my-auto">
-			  <div class="copyright text-center my-auto">
-				<span class="nome-footer">AdminStock 2019</span>
-			  </div>
+				<div class="copyright text-center my-auto">
+					<span class="nome-footer">AdminStock 2019</span>
+				</div>
 			</div>
-		  </footer>
+		</footer>
 
     </div>
     <!-- /.content-wrapper -->
@@ -179,3 +212,4 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 </body>
 
 </html>
+<?php $mysqli->close(); // fecha a conexao ?>

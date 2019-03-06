@@ -82,6 +82,7 @@ if($_SESSION['permissao'] != "1")
 
   <div id="wrapper">
 
+	<!-- Menu lateral -->
 	<?php require_once('menu.php');?>
 
     <div id="content-wrapper">
@@ -90,7 +91,7 @@ if($_SESSION['permissao'] != "1")
 
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
-          <li class="breadcrumb-item">Estoque</li>
+          <li class="breadcrumb-item">Usuários</li>
         </ol>
 
         <!-- DataTables Example -->

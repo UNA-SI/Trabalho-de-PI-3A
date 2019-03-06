@@ -36,14 +36,14 @@
 	<?php if($_SESSION['permissao'] == 1) {?>
 	<!-- CADASTRAR CATEGORIA -->	
 	  <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="cad_categoria.php">
 			<i class="fas fa-clipboard-list"></i>
 			<span>Cadastrar Categoria</span>
 		</a>
       </li>
 	<!-- CADASTRAR OPERAÇÃO -->
 	  <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="cad_operacao.php">
 			<i class="fas fa-clipboard-check"></i>
 			<span>Cadastrar Operação</span>
 		</a>

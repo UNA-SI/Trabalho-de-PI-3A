@@ -11,11 +11,11 @@ if($_SESSION['login'] == "" && $_SESSION['permissao'] == "")
 		  </script>";
 }
 // Verifica permissão do usuário ao acesso da página
-if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['permissao'] != "3") 
+if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2") 
 {
   	echo "<script>
-			alert('Voc\u00ea n\u00e3o tem acesso a essa p\u00e1gina, fale com o administrador para poder acessar.');
-			window.location.href='../../index.html';
+			alert('Voc\u00ea n\u00e3o tem acesso a essa p\u00e1gina, fa\u00e7a o login para poder acessar.');
+			window.location.href='../../tables.html';
 		  </script>";
 }
 ?>
@@ -31,7 +31,7 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>AdminStock - Histórico de Movimentação</title>
+  <title>AdminStock - Cadastrar Operação</title>
 
   <!-- Custom fonts for this template-->
   <link href="../requires/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -54,7 +54,7 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
 
   <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-    <a class="navbar-brand mr-1" href="consulta_estoque.php">AdminStock</a>
+    <a class="navbar-brand mr-1"  href="#">AdminStock</a>
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
@@ -69,91 +69,68 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
           <i class="fas fa-user-circle fa-fw"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">        
-		  <a class="dropdown-item" href="../login/trocar_senha.html">Mudar Senha</a>
+		  <a class="dropdown-item" href="../login/forgot-password.html">Mudar Senha</a>
 		  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Sair</a>
         </div>
       </li>	  
     </ul>
   </nav>
 
-  <div id="wrapper">
+	<div id="wrapper">
 
-	<!-- Menu lateral -->
-	<?php require_once('menu.php');?>
+		<!-- Menu lateral -->
+		<?php require_once('menu.php');?>
 
-    <div id="content-wrapper">
+		<div id="content-wrapper">
+			<div class="container-fluid">
 
-      <div class="container-fluid">
+				<!-- Breadcrumbs-->
+				<ol class="breadcrumb">
+				  <li class="breadcrumb-item">Cadastro de Operação</li>
+				</ol>
 
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">Histórico de Movimentação</li>
-        </ol>
+				<!-- Page Content -->
+				<h1>Cadastrar Operação</h1>
+				<hr>
+				<div class="container">
+					<div class="card card-register mx-auto mt-8">
+						<div class="card-header">Novo Produto</div>
+						<div class="card-body">
+							<form method="POST" action="interacao_bd/insert_operacao.php">
+								<div class="form-group">
+									<div class="form-row">
+										<div class="col-md-12">
+											<!-- DESCRIÇÃO DA OPERAÇÃO -->
+											<div class="form-group">
+												<input name="desc_op" class="form-control" placeholder="Desc. da Operação" required>
+											</div><br>
+											<!-- TIPO DE OPERAÇÃO -->
+											<div class="form-group">									
+												<select name="tipo_op" class="form-control" required>
+												  <option value="">Tipo de Operação</option>
+												  <option value="E" >Entrada</option>
+												  <option value="S" >Saída</option>
+												</select>
+											</div>												
+										</div>
+									</div>
+								</div>
+								<input type="submit" class="btn btn-primary btn-block" value="Cadastrar">
+							</form>
+						</div>					
+					</div>
+				</div>
+			</div>
+		</div>
 
-        <!-- DataTables Example -->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-table"></i>
-            Estoque</div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered table-striped table-hover" id="dataTable">
-                <thead>
-                  <tr>
-                    <th>Cód. do Produto</th>
-                    <th>Cód. Operação</th>
-					<th>Quantidade</th>
-                    <th>Desc. Operação</th>
-					<th>Tipo Operação</th>
-                    <th>Data Movimen.</th>
-					<th>Usuário</th>
-                  </tr>
-                </thead>
-                <tbody>
-				<tr>
-					<td>3</td>
-					<td>104</td>
-					<td>28</td>
-					<td>Entrada</td>
-					<td>E</td>
-					<td>28/02/2019 18:29:47</td>
-					<td>Luigi Azevedo</td>
-				<?php 
-			/*		$select = "SELECT 
-					FROM 
-					ORDER BY dat_moviment DESC";
-					$result = $mysqli->query($select);
-			
-					while($row = $result->fetch_assoc()){
-						echo "		
-						<tr>
-							<td>".$row['']."</td>
-							<td>".$row['']."</td>
-							<td>".$row['']."</td>
-							<td>".$row['']."</td>
-							<td>".$row['']."</td>
-							<td>".$row['']."</td>
-						</tr>";						  
-					}
-				*/
-				?>       
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <!-- /.container-fluid -->
-
-      <!-- Sticky Footer -->
-      <footer class="sticky-footer">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span class="nome-footer">AdminStock 2019</span>
-          </div>
-        </div>
-      </footer>
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer">
+			<div class="container my-auto">
+				<div class="copyright text-center my-auto">
+					<span class="nome-footer">AdminStock 2019</span>
+				</div>
+			</div>
+		</footer>
 
     </div>
     <!-- /.content-wrapper -->
@@ -205,3 +182,4 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
 </body>
 
 </html>
+<?php $mysqli->close(); // fecha a conexao ?>
