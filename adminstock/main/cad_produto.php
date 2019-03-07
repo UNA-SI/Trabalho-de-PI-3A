@@ -130,7 +130,7 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 													while($row = $result->fetch_assoc()){
 															$categorias[] = $row['desc_categoria'];
 													}
-													echo "<input list='categoria' name='cat_prod' class='form-control' 
+													echo "<input list='categoria' name='cat_desc' class='form-control' 
 													placeholder='Categoria do Produto' pattern='" . implode('|', $categorias) . "' required>";                                                                                                                                                                                                                                                                             
 												
 													echo "<datalist id='categoria'>";
