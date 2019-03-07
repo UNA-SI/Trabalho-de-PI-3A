@@ -129,16 +129,15 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 
 													while($row = $result->fetch_assoc()){
 															$categorias[] = $row['desc_categoria'];
-															$id_cat[] = $row['cod_categoria'];
 													}
 													echo "<input list='categoria' name='cat_prod' class='form-control' 
 													placeholder='Categoria do Produto' pattern='" . implode('|', $categorias) . "' required>";                                                                                                                                                                                                                                                                             
-
+												
 													echo "<datalist id='categoria'>";
-													foreach($id_cat as $id){
-														echo "<option value='".$id."'/>";                                                          
+													foreach($categorias as $categoria){
+														echo "<option value='".$categoria."'/>";                                                          
 													}   
-													echo "</datalist>";
+													echo "</datalist>"; 
 												?>
 																						
 											</div>									
