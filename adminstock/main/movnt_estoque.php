@@ -14,8 +14,8 @@ if($_SESSION['login'] == "" && $_SESSION['permissao'] == "")
 if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2") 
 {
   	echo "<script>
-			alert('Voc\u00ea n\u00e3o tem acesso a essa p\u00e1gina, fa\u00e7a o login para poder acessar.');
-			window.location.href='../../tables.html';
+			alert('Voc\u00ea n\u00e3o tem acesso a essa p\u00e1gina, fale com o administrador para poder acessar.');
+			window.location.href='../../index.html';
 		  </script>";
 }
 ?>
@@ -31,7 +31,7 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>AdminStock - Cadastrar Produto</title>
+  <title>AdminStock - Movimentação de Estoque</title>
 
   <!-- Custom fonts for this template-->
   <link href="../requires/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -54,7 +54,7 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 
   <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-    <a class="navbar-brand mr-1"  href="#">AdminStock</a>
+    <a class="navbar-brand mr-1" href="consulta_estoque.php">AdminStock</a>
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
@@ -69,98 +69,99 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
           <i class="fas fa-user-circle fa-fw"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">        
-		  <a class="dropdown-item" href="../login/forgot-password.html">Mudar Senha</a>
+		  <a class="dropdown-item" href="../login/trocar_senha.html">Mudar Senha</a>
 		  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Sair</a>
         </div>
       </li>	  
     </ul>
   </nav>
 
-	<div id="wrapper">
+  <div id="wrapper">
 
-		<!-- Menu lateral -->
-		<?php require_once('menu.php');?>
+	<!-- Menu lateral -->
+	<?php require_once('menu.php');?>
 
-		<div id="content-wrapper">
-			<div class="container-fluid">
+    <div id="content-wrapper">
 
-				<!-- Breadcrumbs-->
-				<ol class="breadcrumb">
-				  <li class="breadcrumb-item">Cadastro de Produto</li>
-				</ol>
+      <div class="container-fluid">
 
-				<!-- Page Content -->
-				<h1>Cadastrar Produto</h1>
-				<hr>
-				<div class="container">
-					<div class="card card-register mx-auto mt-8">
-						<div class="card-header">Novo Produto</div>
-						<div class="card-body">
-							<form method="POST" action="interacao_bd/insert_produto.php">
-								<div class="form-group">
-									<div class="form-row">
-										<div class="col-md-12">
-											<!-- DESCRIÇÃO DO PRODUTO -->
-											<div class="form-group">
-												<input name="desc_prod" class="form-control" placeholder="Desc. do Produto" required>
-											</div><br>
-											<!-- CATEGORIA DO PRODUTO -->																																
-											<div class="form-group">												
-											<!-- OPÇÃO UTILIZANDO SELECT -->
-											<!--	<select name="tipo_op" class="form-control" required>
-												  <option value="">Categoria do Produto</option> -->
-												<?php 
-													/*$select = "SELECT desc_categoria
-													FROM categoria
-													ORDER BY desc_categoria";
-													$result = $mysqli->query($select);
-																																																
-													while($row = $result->fetch_assoc()){
-														echo "<option value=".$row['desc_categoria'].">".$row['desc_categoria']."</option>";	
-													}*/
-												?>
-												<!--</select> -->
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Movimentação de Estoque</li>
+        </ol>
+		
+		<form>
+		<a href="#" class="btn btn-primary btn-circle btn-lg">
+			<i class="fas fa-search"></i>
+		</a>
+		</form>
+		
+        <!-- Tabela -->
+		
+		<!--
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+            Estoque</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable">
+                <thead>
+                  <tr>
+                    <th>Cód. do Produto</th>
+                    <th>Cód. Operação</th>
+					<th>Quantidade</th>
+                    <th>Desc. Operação</th>
+					<th>Tipo Operação</th>
+                    <th>Data Movimen.</th>
+					<th>Usuário</th>
+                  </tr>
+                </thead>
+                <tbody>
+				<tr>
+					<td>3</td>
+					<td>104</td>
+					<td>28</td>
+					<td>Entrada</td>
+					<td>E</td>
+					<td>28/02/2019 18:29:47</td>
+					<td>Luigi Azevedo</td>
+				<?php 
+			/*		$select = "SELECT 
+					FROM";
+					
+					$result = $mysqli->query($select);
+			
+					while($row = $result->fetch_assoc()){
+						echo "		
+						<tr>
+							<td>".$row['']."</td>
+							<td>".$row['']."</td>
+							<td>".$row['']."</td>
+							<td>".$row['']."</td>
+							<td>".$row['']."</td>
+							<td>".$row['']."</td>
+						</tr>";						  
+					}
+				*/
+				?>       
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+	  -->
+      <!-- /.container-fluid -->
 
-												<?php 
-													$select = "SELECT cod_categoria, desc_categoria
-													FROM categoria
-													ORDER BY desc_categoria";
-													$result = $mysqli->query($select);
-
-													while($row = $result->fetch_assoc()){
-															$categorias[] = $row['desc_categoria'];
-															$id_cat[] = $row['cod_categoria'];
-													}
-													echo "<input list='categoria' name='cat_prod' class='form-control' 
-													placeholder='Categoria do Produto' pattern='" . implode('|', $categorias) . "' required>";                                                                                                                                                                                                                                                                             
-
-													echo "<datalist id='categoria'>";
-													foreach($id_cat as $id){
-														echo "<option value='".$id."'/>";                                                          
-													}   
-													echo "</datalist>";
-												?>
-																						
-											</div>									
-										</div>
-									</div>
-								</div>
-								<input type="submit" class="btn btn-primary btn-block" value="Cadastrar">
-							</form>
-						</div>					
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- Sticky Footer -->
-		<footer class="sticky-footer">
-			<div class="container my-auto">
-				<div class="copyright text-center my-auto">
-					<span class="nome-footer">AdminStock 2019</span>
-				</div>
-			</div>
-		</footer>
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span class="nome-footer">AdminStock 2019</span>
+          </div>
+        </div>
+      </footer>
 
     </div>
     <!-- /.content-wrapper -->
@@ -212,4 +213,3 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 </body>
 
 </html>
-<?php $mysqli->close(); // fecha a conexao ?>

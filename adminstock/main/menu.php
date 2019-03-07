@@ -1,5 +1,6 @@
 <!-- Sidebar -->
 	<?php session_start(); ?>
+	<!-- PERMISSÃO MÍNIMA -->
     <?php if($_SESSION['permissao'] == 1 || $_SESSION['permissao'] == 2 || $_SESSION['permissao'] == 3) {?>
 	<ul class="sidebar navbar-nav">
 	<!-- VISUALIZAR ESTOQUE -->	
@@ -16,7 +17,8 @@
 			<span>Histórico de Movimentação</span>
 		</a>
       </li>	
-	<?php }?>	  
+	<?php }?>
+	<!-- PERMISSÃO INTERMEDIARIA
 	<?php if($_SESSION['permissao'] == 1 || $_SESSION['permissao'] == 2) {?>
 	<!-- CADASTRAR PRODUTO -->	
 	  <li class="nav-item">
@@ -27,12 +29,13 @@
 	  </li>
 	<!-- MOVIMENTAÇÃO DE ESTOQUE -->
 	  <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="movnt_estoque.php">
 			<i class="fas fa-random"></i>
 			<span>Movimentação de Estoque</span>
 		</a>
       </li>	
 	<?php }?>
+	<!-- PERMISSÃO TOTAL -->
 	<?php if($_SESSION['permissao'] == 1) {?>
 	<!-- CADASTRAR CATEGORIA -->	
 	  <li class="nav-item">

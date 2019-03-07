@@ -9,10 +9,12 @@
 	VALUES('$desc_prod' ,'$cat_prod')";
     
 	if ($mysqli->query($insert) === TRUE) {
+		require_once("insert_estoque.php");
 		echo "<script>
 		alert('Produto cadastrado com sucesso!');
 		window.location.href='../cad_produto.php';
 		</script>";
+		
 	}else{
 		echo "<script>
 		alert('Ocorreu um erro ao cadastrar o produto, tente novamente!');
