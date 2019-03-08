@@ -109,33 +109,26 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
 					<th>Usuário</th>
                   </tr>
                 </thead>
-                <tbody>
-				<tr>
-					<td>3</td>
-					<td>104</td>
-					<td>28</td>
-					<td>Entrada</td>
-					<td>E</td>
-					<td>28/02/2019 18:29:47</td>
-					<td>Luigi Azevedo</td>
+                <tbody>					
 				<?php 
-			/*		$select = "SELECT 
-					FROM 
+					$select = "SELECT cod_item, cod_operacao, desc_operacao, tipo, qtde, dat_moviment, usuario
+					FROM estoque_movnto
 					ORDER BY dat_moviment DESC";
 					$result = $mysqli->query($select);
 			
 					while($row = $result->fetch_assoc()){
 						echo "		
 						<tr>
-							<td>".$row['']."</td>
-							<td>".$row['']."</td>
-							<td>".$row['']."</td>
-							<td>".$row['']."</td>
-							<td>".$row['']."</td>
-							<td>".$row['']."</td>
+							<td>".$row['cod_item']."</td>
+							<td>".$row['cod_operacao']."</td>
+							<td>".$row['desc_operacao']."</td>
+							<td>".$row['tipo']."</td>
+							<td>".$row['qtde']."</td>
+							<td>".$row['dat_moviment']."</td>
+							<td>".$row['usuario']."</td>
 						</tr>";						  
 					}
-				*/
+				
 				?>       
                 </tbody>
               </table>
