@@ -108,8 +108,8 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 											<div class="form-group">									
 												<select name="tipo_op" class="form-control" required>
 												  <option value="">Tipo de Operação</option>
-												  <option value="E" >Entrada</option>
-												  <option value="S" >Saída</option>
+												  <option value="Entrada" >Entrada</option>
+												  <option value="Saída" >Saída</option>
 												</select>
 											</div>												
 										</div>

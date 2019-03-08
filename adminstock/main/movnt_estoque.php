@@ -46,6 +46,11 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 		.nome-footer{
 			font-weight: bold;
 			font-size: 1.5rem;
+			
+		}
+		#alinhamento
+		{
+			vertical-align:middle;
 		}	
 	</style>	
 </head>
@@ -90,68 +95,116 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
           <li class="breadcrumb-item">Movimentação de Estoque</li>
         </ol>
 		
-		<form>
-		<a href="#" class="btn btn-primary btn-circle btn-lg">
-			<i class="fas fa-search"></i>
-		</a>
-		</form>
+		<div class="card card-register mx-auto mt-8" style="margin-bottom: 2rem;">
+			<div class="card-header">Movimentar Produtos</div>
+				<div class="card-body">				
+					<form id="busca" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+						<table class="col-md-12">
+							<tr>
+								<td>
+									<?php 
+										$select = "SELECT item_desc
+										FROM item
+										ORDER BY item_desc";
+										$result = $mysqli->query($select);
+
+										while($row = $result->fetch_assoc()){
+											$items[] = $row['item_desc'];
+										}
+										echo "<input list='categoria' name='item_desc' class='form-control' 
+										placeholder='Nome do Produto' pattern='" . implode('|', $items) . "' required>";                                                                                                                                                                                                                                                                             
+												
+										echo "<datalist id='categoria'>";
+										foreach($items as $item){
+											echo "<option value='".$item."'/>";                                                          
+										}   
+										echo "</datalist>"; 
+									?>	
+								</td>
+								<td>
+									<input style="width: 70%; margin-left: 15%; margin-right: 15%;" name="submit" type="submit" class="btn btn-primary btn-block" value="Buscar">
+								</td>
+							</tr>
+						</table>
+					</form>	
+				</div>
+			</div>
 		
-        <!-- Tabela -->
-		
-		<!--
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-table"></i>
-            Estoque</div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered table-striped table-hover" id="dataTable">
-                <thead>
-                  <tr>
-                    <th>Cód. do Produto</th>
-                    <th>Cód. Operação</th>
-					<th>Quantidade</th>
-                    <th>Desc. Operação</th>
-					<th>Tipo Operação</th>
-                    <th>Data Movimen.</th>
-					<th>Usuário</th>
-                  </tr>
-                </thead>
-                <tbody>
-				<tr>
-					<td>3</td>
-					<td>104</td>
-					<td>28</td>
-					<td>Entrada</td>
-					<td>E</td>
-					<td>28/02/2019 18:29:47</td>
-					<td>Luigi Azevedo</td>
-				<?php 
-			/*		$select = "SELECT 
-					FROM";
-					
-					$result = $mysqli->query($select);
-			
-					while($row = $result->fetch_assoc()){
-						echo "		
-						<tr>
-							<td>".$row['']."</td>
-							<td>".$row['']."</td>
-							<td>".$row['']."</td>
-							<td>".$row['']."</td>
-							<td>".$row['']."</td>
-							<td>".$row['']."</td>
-						</tr>";						  
-					}
-				*/
-				?>       
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-	  -->
+
+<?php
+		if(isset($_POST['submit'])){
+?>			
+			<!-- Tabela -->		
+			<div class="card mb-3">
+				<div class="card-header">
+					<i class="fas fa-table"></i>
+					Estoque
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped table-hover" id="dataTable">
+							<thead>
+								<tr>
+									<th>Cód. do Produto</th>
+									<th>Desc. do Produto</th>
+									<th>Quantidade Atual</th>
+									<th>Desc. Operação</th>
+									<th>Qtd. Para Movimentação</th>
+									<th>Confirmar Movimentação</th>
+								</tr>
+							</thead>
+							<tbody>
+							<?php
+								$select = "SELECT cod_item, item_desc, saldo
+								FROM estoque
+								WHERE item_desc = '{$_POST['item_desc']}'";								
+								$result = $mysqli->query($select);					
+								$row = $result->fetch_assoc();
+								echo "		
+								<tr>
+									<td id='alinhamento'>".$row['cod_item']."</td>
+									<td id='alinhamento'>".$row['item_desc']."</td>
+									<td id='alinhamento'>".$row['saldo']."</td>
+									<form method='POST' action='#'>
+									<td>
+										<div class='form-group'>			
+											<select class='form-control' onchange='submitForm(this.form);' name='alt_perm' required>";						
+											
+											$select_op = "SELECT cod_operacao, desc_operacao, tipo
+											FROM operacao";								
+											$result_op = $mysqli->query($select_op);
+											
+											echo "<option value=''>Operação</option>";
+											while($row_op = $result_op->fetch_assoc()){											
+												echo"	
+												<option value='".$row_op['cod_operacao']."'>".$row_op['desc_operacao']."</option>";
+											}
+								echo"		</select>
+										</div>					
+									</td>
+									<td>
+										<input name='desc_prod' class='form-control' placeholder='Quantidade' required>
+									</td>
+									<td>
+										<button style='width: 50%; margin-left: 25%; margin-right: 25%;' type='submit' class='btn btn-success'>
+											<i class='fa fa-arrow-circle-right fa-lg'> Confirmar</i>
+										</button>
+									</td>
+									</form>
+								</tr>";						  
+								
+							?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+<?php	}
+?>
+		</div>
+
+
+       
       <!-- /.container-fluid -->
 
       <!-- Sticky Footer -->
