@@ -84,14 +84,10 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 		<div id="content-wrapper">
 			<div class="container-fluid">
 
-				<!-- Breadcrumbs-->
-				<ol class="breadcrumb">
-				  <li class="breadcrumb-item">Cadastro de Operação</li>
-				</ol>
-
 				<!-- Page Content -->
 				<h1>Cadastrar Operação</h1>
 				<hr>
+				<br>
 				<div class="container">
 					<div class="card card-register mx-auto mt-8">
 						<div class="card-header">Novo Produto</div>
@@ -108,8 +104,8 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 											<div class="form-group">									
 												<select name="tipo_op" class="form-control" required>
 												  <option value="">Tipo de Operação</option>
-												  <option value="Entrada" >Entrada</option>
-												  <option value="Saída" >Saída</option>
+												  <option value="E" >Entrada</option>
+												  <option value="S" >Saída</option>
 												</select>
 											</div>												
 										</div>

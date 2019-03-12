@@ -88,12 +88,11 @@ if($_SESSION['permissao'] != "1")
     <div id="content-wrapper">
 
       <div class="container-fluid">
-
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">Usuários</li>
-        </ol>
-
+		<!-- Page Content -->
+			<h1>Usuários</h1>
+			<hr>
+			<br>
+	
         <!-- DataTables Example -->
         <div class="card mb-3">
           <div class="card-header">

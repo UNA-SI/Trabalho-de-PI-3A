@@ -47,8 +47,7 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
 			font-weight: bold;
 			font-size: 1.5rem;
 		}	
-	</style>	
-</head>
+	</style>
 
 <body id="page-top">
 
@@ -83,21 +82,19 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
 
     <div id="content-wrapper">
 
-      <div class="container-fluid">
-
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">Histórico de Movimentação</li>
-        </ol>
-
+		<div class="container-fluid">
+			<!-- Page Content -->
+			<h1>Histórico de Movimentação</h1>
+			<hr>
+			<br>		
         <!-- DataTables Example -->
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-table"></i>
-            Estoque</div>
+            Histórico de Movimentação</div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-bordered table-striped table-hover" id="dataTable">
+              <table class="table table-bordered table-striped table-hover tabela" id="dataTable">
                 <thead>
                   <tr>
                     <th>Cód. do Produto</th>
@@ -111,9 +108,9 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
                 </thead>
                 <tbody>					
 				<?php 
-					$select = "SELECT cod_item, cod_operacao, desc_operacao, tipo, qtde, dat_moviment, usuario
-					FROM estoque_movnto
-					ORDER BY dat_moviment DESC";
+								
+					$select = "SELECT cod_item, cod_operacao, desc_operacao, tipo, qtde, dat_movimento, usuario
+					FROM estoque_movnto";
 					$result = $mysqli->query($select);
 			
 					while($row = $result->fetch_assoc()){
@@ -121,10 +118,10 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
 						<tr>
 							<td>".$row['cod_item']."</td>
 							<td>".$row['cod_operacao']."</td>
+							<td>".$row['qtde']."</td>							
 							<td>".$row['desc_operacao']."</td>
 							<td>".$row['tipo']."</td>
-							<td>".$row['qtde']."</td>
-							<td>".$row['dat_moviment']."</td>
+							<td>".$row['dat_movimento']."</td>
 							<td>".$row['usuario']."</td>
 						</tr>";						  
 					}
@@ -178,9 +175,20 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
     </div>
   </div>
 
+
+ 
+	
   <!-- Bootstrap core JavaScript-->
   <script src="../requires/vendor/jquery/jquery.min.js"></script>
   <script src="../requires/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	 <script>
+    $(document).ready(function() {
+        $('.tabela').DataTable( {
+            "order": [[ 5, "desc" ]] // "0" means First column and "desc" is order type; 
+        } );
+    } );
+  </script>	
 
   <!-- Core plugin JavaScript-->
   <script src="../requires/vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -194,6 +202,10 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
 
   <!-- Demo scripts for this page-->
   <script src="../requires/js/demo/datatables-demo.js"></script>
+  
+  
+  
+</head>
 
 </body>
 

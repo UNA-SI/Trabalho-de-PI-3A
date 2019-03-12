@@ -83,17 +83,14 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
     <div id="content-wrapper">
 
       <div class="container-fluid">
-
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">Estoque</li>
-        </ol>
-
+			<h1>Consultar Estoque</h1>
+			<hr>
+			<br>
         <!-- DataTables Example -->
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-table"></i>
-            Estoque</div>
+            Estoque Atual</div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered table-striped table-hover" id="dataTable">
@@ -108,30 +105,39 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
                 </thead>
                 <tbody>
 				<tr>
-					<td>1</td>
-					<td>Monitor Asus 24' 60 Hz</td>
-					<td>Monitor Asus</td>
-					<td>28/02/2019 13:50:25</td>
-					<td>37</td>
 				<?php 
-			/*		$select = "SELECT 
-					FROM 
-					ORDER BY 1";
+					
+				
+					$select = "SELECT cod_item, item_desc, cod_categoria, saldo
+					FROM estoque";
 					$result = $mysqli->query($select);
-			
+					
 					while($row = $result->fetch_assoc()){
+						
+						$select_cat = "SELECT desc_categoria
+						FROM categoria
+						WHERE cod_categoria = '{$row['cod_categoria']}' ";
+						$result_cat = $mysqli->query($select_cat);
+						$row_cat = $result_cat->fetch_assoc();					
+						
+						$select_dat = "SELECT dat_movimento
+						FROM estoque_movnto
+						WHERE cod_item = '{$row['cod_item']}'
+						ORDER BY dat_movimento DESC LIMIT 1";
+						$result_dat = $mysqli->query($select_dat);
+						$row_dat = $result_dat->fetch_assoc();
+						
 						echo "		
 						<tr>
-							<td>".."</td>
-							<td>".."</td>
-							<td>".."</td>
-							<td>".."</td>
-							<td>".."</td>
-							<td>".."</td>
-							<td>".."</td>
-						</tr>";						  
+							<td>".$row['cod_item']."</td>
+							<td>".$row['item_desc']."</td>
+							<td>".$row_cat['desc_categoria']."</td>
+							<td>".$row_dat['dat_movimento']."</td>
+							<td>".$row['saldo']."</td>
+						</tr>";		
+						
 					}
-				*/
+				
 				?>       
                 </tbody>
               </table>

@@ -84,14 +84,10 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 		<div id="content-wrapper">
 			<div class="container-fluid">
 
-				<!-- Breadcrumbs-->
-				<ol class="breadcrumb">
-				  <li class="breadcrumb-item">Cadastro de Categoria</li>
-				</ol>
-
 				<!-- Page Content -->
 				<h1>Cadastrar Categoria</h1>
 				<hr>
+				<br>
 				<div class="container">
 					<div class="card card-register mx-auto mt-8">
 						<div class="card-header">Novo Produto</div>
