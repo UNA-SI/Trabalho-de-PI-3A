@@ -55,32 +55,10 @@ if($_SESSION['permissao'] != "1")
 </head>
 
 <body id="page-top">
+	<!-- BARRA DE NAVEGAÇÃO SUPERIOR -->
+	<?php require_once('nav_bar.php');?>
 
-  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-
-    <a class="navbar-brand mr-1" href="consulta_estoque.php">AdminStock</a>
-
-    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-      <i class="fas fa-bars"></i>
-    </button>
-	
-	
-    <!-- Navbar -->
-    <ul class="navbar-nav ml-auto">
-		<span style="margin-top: auto; margin-bottom: auto; color: white; float: right;"><?php echo "".$_SESSION['pri_nome']." ".$_SESSION['ult_nome']."&nbsp;&nbsp;"?></span>
-	  <li class="nav-item dropdown no-arrow">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-user-circle fa-fw"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">        
-		  <a class="dropdown-item" href="../login/trocar_senha.html">Mudar Senha</a>
-		  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Sair</a>
-        </div>
-      </li>	  
-    </ul>
-  </nav>
-
-  <div id="wrapper">
+	<div id="wrapper">
 
 	<!-- Menu lateral -->
 	<?php require_once('menu.php');?>
@@ -192,25 +170,6 @@ if($_SESSION['permissao'] != "1")
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Quer realmente sair?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Selecione <b>Sair</b> abaixo para finalizar sua sessão atual.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-          <a class="btn btn-primary" href="finalizar_session.php">Sair</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
 	<script>
 		function submitForm(form){
 			if(confirm('Tem certeza que deseja alterar a permiss\u00e3o deste usu\u00e1rio?')){
@@ -221,11 +180,11 @@ if($_SESSION['permissao'] != "1")
 		}
 		
 		function deletaUsuario(link) {
-		var confirma = window.confirm("Tem certeza que deseja deletar esse usu\u00e1rio?");
-		if (confirma) {
-			window.location.href = "interacao_bd/delete_usuario.php?BoK2sW7fUfiDLs5Zugof="+link;
+			var confirma = window.confirm("Tem certeza que deseja deletar esse usu\u00e1rio?");
+			if (confirma) {
+				window.location.href = "interacao_bd/delete_usuario.php?BoK2sW7fUfiDLs5Zugof="+link;
+			}
 		}
-	}
 	</script>
 	
   <!-- Bootstrap core JavaScript-->
