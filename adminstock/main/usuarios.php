@@ -63,107 +63,99 @@ if($_SESSION['permissao'] != "1")
 	<!-- Menu lateral -->
 	<?php require_once('menu.php');?>
 
-    <div id="content-wrapper">
+		<div id="content-wrapper">
 
-      <div class="container-fluid">
-		<!-- Page Content -->
-			<h1>Usuários</h1>
-			<hr>
-			<br>
-	
-        <!-- DataTables Example -->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-table"></i>
-            Estoque</div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered table-striped table-hover" id="dataTable">
-                <thead>
-                  <tr>
-                    <th>Login</th>
-                    <th>Primeiro Nome</th>
-					<th>Último Nome</th>
-                    <th>Email</th>
-					<th>Permissão Atual</th>
-					<th>Alterar Permissão</th>
-					<th>Apagar Usuário</th>
-                  </tr>
-                </thead>
-                <tbody>
-				<?php 
-				
-					
-					
-					$select = "SELECT id, login, pri_nome, ult_nome, email, permissao
-					FROM usuario";
-					$result = $mysqli->query($select);
-			
-					while($row = $result->fetch_assoc()){	
-						
-						switch($row['permissao'])
-						{
-							case 1: 
-								$permissao = 'Total';
-								break;
-							case 2:
-								$permissao = 'Média';
-								break;
-							case 3:
-								$permissao = 'Mínima';
-								break;
-							case 4:
-								$permissao = 'Sem Acesso';
-								break;
-						}
-						echo "		
-						<tr>
-							<td id='alinhamento'>".$row['login']."</td>
-							<td id='alinhamento'>".$row['pri_nome']."</td>
-							<td id='alinhamento'>".$row['ult_nome']."</td>
-							<td id='alinhamento'>".$row['email']."</td>
-							<td id='alinhamento'>".$permissao."</td>
-							<form method='POST' action='interacao_bd/update_permissao.php'?>
-								<td>
-									<div class='form-group'>			
-										<select class='form-control' onchange='submitForm(this.form);' name='alt_perm'>								
-											<option value=''>Permissão</option>
-											<option value='1'>Total</option>
-											<option value='2'>Média</option>
-											<option value='3'>Mínima</option>
-											<option value='4'>Nenhuma</option>
-										</select>
-									</div>					
-								</td>
-								<input name='id' type=hidden value='".$row['id']."' />
-							</form>
-							<td align='center'><a onclick='deletaUsuario(".$row['id'].");' style='cursor: pointer;' class='fas fa-user-times fa-3x'></a></td>
-						</tr>";						  
-					}				
-				?>       
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+			<div class="container-fluid">
+			<!-- Page Content -->
+				<h1>Usuários</h1>
+				<hr>
+				<br>
+		
+				<!-- Tabela -->
+				<div class="card mb-3">
+					<div class="card-header">
+						<i class="fas fa-table"></i>
+					Usuários</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-bordered table-striped table-hover" id="dataTable">
+								<thead>
+									<tr>
+										<th>Login</th>
+										<th>Primeiro Nome</th>
+										<th>Último Nome</th>
+										<th>Email</th>
+										<th>Permissão Atual</th>
+										<th>Alterar Permissão</th>
+										<th>Apagar Usuário</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php 	
+										$select = "SELECT id, login, pri_nome, ult_nome, email, permissao
+										FROM usuario";
+										$result = $mysqli->query($select);
+								
+										while($row = $result->fetch_assoc()){	
+											
+											switch($row['permissao'])
+											{
+												case 1: 
+													$permissao = 'Total';
+													break;
+												case 2:
+													$permissao = 'Média';
+													break;
+												case 3:
+													$permissao = 'Mínima';
+													break;
+												case 4:
+													$permissao = 'Sem Acesso';
+													break;
+											}
+											echo "		
+											<tr>
+												<td id='alinhamento'>".$row['login']."</td>
+												<td id='alinhamento'>".$row['pri_nome']."</td>
+												<td id='alinhamento'>".$row['ult_nome']."</td>
+												<td id='alinhamento'>".$row['email']."</td>
+												<td id='alinhamento'>".$permissao."</td>
+												<form method='POST' action='interacao_bd/update_permissao.php'?>
+													<td>
+														<div class='form-group'>			
+															<select class='form-control' onchange='submitForm(this.form);' name='alt_perm'>								
+																<option value=''>Permissão</option>
+																<option value='1'>Total</option>
+																<option value='2'>Média</option>
+																<option value='3'>Mínima</option>
+																<option value='4'>Nenhuma</option>
+															</select>
+														</div>					
+													</td>
+													<input name='id' type=hidden value='".$row['id']."' />
+												</form>
+												<td align='center'><a onclick='deletaUsuario(".$row['id'].");' style='cursor: pointer;' class='fas fa-user-times fa-3x'></a></td>
+											</tr>";						  
+										}				
+										?>       
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div> <!-- /.container-fluid -->
+      
 
-      </div>
-      <!-- /.container-fluid -->
-
-      <!-- Sticky Footer -->
-      <footer class="sticky-footer">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span class="nome-footer">AdminStock 2019</span>
-          </div>
-        </div>
-      </footer>
-
-    </div>
-    <!-- /.content-wrapper -->
-
-  </div>
-  <!-- /#wrapper -->
+			<!-- Sticky Footer -->
+			<footer class="sticky-footer">
+				<div class="container my-auto">
+					<div class="copyright text-center my-auto">
+						<span class="nome-footer">AdminStock 2019</span>
+					</div>
+				</div>
+			</footer>
+		</div> <!-- /.content-wrapper -->
+	</div> <!-- /#wrapper --> 
 
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#page-top">
