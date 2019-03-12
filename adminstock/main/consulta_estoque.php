@@ -60,88 +60,77 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
 	<!-- Menu lateral -->
 	<?php require_once('menu.php');?>
 
-    <div id="content-wrapper">
-
-      <div class="container-fluid">
-			<h1>Consultar Estoque</h1>
-			<hr>
-			<br>
-        <!-- DataTables Example -->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-table"></i>
-            Estoque Atual</div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered table-striped table-hover" id="dataTable">
-                <thead>
-                  <tr>
-                    <th>Cód. do Produto</th>
-                    <th>Desc. do Produto</th>
-                    <th>Categoria</th>
-					<th>Última Movimentação</th>
-                    <th>Saldo em Estoque</th>
-                  </tr>
-                </thead>
-                <tbody>
-				<tr>
-				<?php 
-					
-				
-					$select = "SELECT cod_item, item_desc, cod_categoria, saldo
-					FROM estoque";
-					$result = $mysqli->query($select);
-					
-					while($row = $result->fetch_assoc()){
+		<div id="content-wrapper">
+			<div class="container-fluid">
+				<h1>Consultar Estoque</h1>
+				<hr>
+				<br>
+				<!-- Tabela -->
+				<div class="card mb-3">
+					<div class="card-header">
+						<i class="fas fa-table"></i>
+					Estoque Atual</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-bordered table-striped table-hover tabela" id="dataTable">
+								<thead>
+									<tr>
+										<th>Cód. do Produto</th>
+										<th>Desc. do Produto</th>
+										<th>Categoria</th>
+										<th>Última Movimentação</th>
+										<th>Saldo em Estoque</th>
+									</tr>
+								</thead>
+								<tbody>					
+									<?php 
+													
+										$select = "SELECT cod_item, item_desc, cod_categoria, saldo
+										FROM estoque";
+										$result = $mysqli->query($select);
+								
+										while($row = $result->fetch_assoc()){
+											
+											$select_cat = "SELECT desc_categoria
+											FROM categoria
+											WHERE cod_categoria = '{$row['cod_categoria']}' ";
+											$result_cat = $mysqli->query($select_cat);
+											$row_cat = $result_cat->fetch_assoc();					
+											
+											$select_dat = "SELECT dat_movimento
+											FROM estoque_movnto
+											WHERE cod_item = '{$row['cod_item']}'
+											ORDER BY dat_movimento DESC LIMIT 1";
+											$result_dat = $mysqli->query($select_dat);
+											$row_dat = $result_dat->fetch_assoc();
 						
-						$select_cat = "SELECT desc_categoria
-						FROM categoria
-						WHERE cod_categoria = '{$row['cod_categoria']}' ";
-						$result_cat = $mysqli->query($select_cat);
-						$row_cat = $result_cat->fetch_assoc();					
-						
-						$select_dat = "SELECT dat_movimento
-						FROM estoque_movnto
-						WHERE cod_item = '{$row['cod_item']}'
-						ORDER BY dat_movimento DESC LIMIT 1";
-						$result_dat = $mysqli->query($select_dat);
-						$row_dat = $result_dat->fetch_assoc();
-						
-						echo "		
-						<tr>
-							<td>".$row['cod_item']."</td>
-							<td>".$row['item_desc']."</td>
-							<td>".$row_cat['desc_categoria']."</td>
-							<td>".$row_dat['dat_movimento']."</td>
-							<td>".$row['saldo']."</td>
-						</tr>";		
-						
-					}
-				
-				?>       
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <!-- /.container-fluid -->
-
-      <!-- Sticky Footer -->
-      <footer class="sticky-footer">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span class="nome-footer">AdminStock 2019</span>
-          </div>
-        </div>
-      </footer>
-
-    </div>
-    <!-- /.content-wrapper -->
-
-  </div>
-  <!-- /#wrapper -->
+											echo "		
+											<tr>
+												<td>".$row['cod_item']."</td>
+												<td>".$row['item_desc']."</td>
+												<td>".$row_cat['desc_categoria']."</td>
+												<td>".$row_dat['dat_movimento']."</td>
+												<td>".$row['saldo']."</td>
+											</tr>";				  
+										}			
+									?>       
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>     <!-- /.container-fluid -->
+			<!-- Sticky Footer -->
+			<footer class="sticky-footer">
+				<div class="container my-auto">
+					<div class="copyright text-center my-auto">
+						<span class="nome-footer">AdminStock 2019</span>
+					</div>
+				</div>
+			</footer>
+		</div>  <!-- /.content-wrapper -->
+	</div> <!-- /#wrapper -->
+ 
 
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#page-top">
