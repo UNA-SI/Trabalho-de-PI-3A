@@ -7,7 +7,7 @@
 	  <li class="nav-item">
         <a class="nav-link" href="consulta_estoque.php">
 			<i class="fas fa-eye"></i>
-			<span>Visualizar Estoque</span>
+			<span>Consulta Estoque</span>
 		</a>
       </li>
 	<!-- HISTÓRICO DE MOVIMENTAÇÃO-->

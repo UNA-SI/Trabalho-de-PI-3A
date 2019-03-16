@@ -47,96 +47,72 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
 			font-weight: bold;
 			font-size: 1.5rem;
 		}	
-	</style>	
+	</style>
 </head>
-
 <body id="page-top">
 
-  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+	<!-- BARRA DE NAVEGAÇÃO SUPERIOR -->
+	<?php require_once('nav_bar.php');?>
 
-    <a class="navbar-brand mr-1" href="consulta_estoque.php">AdminStock</a>
-
-    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-      <i class="fas fa-bars"></i>
-    </button>
-	
-	
-    <!-- Navbar -->
-    <ul class="navbar-nav ml-auto">
-		<span style="margin-top: auto; margin-bottom: auto; color: white; float: right;"><?php echo "".$_SESSION['pri_nome']." ".$_SESSION['ult_nome']."&nbsp;&nbsp;"?></span>
-	  <li class="nav-item dropdown no-arrow">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-user-circle fa-fw"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">        
-		  <a class="dropdown-item" href="../login/trocar_senha.html">Mudar Senha</a>
-		  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Sair</a>
-        </div>
-      </li>	  
-    </ul>
-  </nav>
-
-  <div id="wrapper">
+	<div id="wrapper">
 
 	<!-- Menu lateral -->
 	<?php require_once('menu.php');?>
-
-    <div id="content-wrapper">
-
-      <div class="container-fluid">
-
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">Histórico de Movimentação</li>
-        </ol>
-
-        <!-- DataTables Example -->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-table"></i>
-            Estoque</div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered table-striped table-hover" id="dataTable">
-                <thead>
-                  <tr>
-                    <th>Cód. do Produto</th>
-                    <th>Cód. Operação</th>
-					<th>Quantidade</th>
-                    <th>Desc. Operação</th>
-					<th>Tipo Operação</th>
-                    <th>Data Movimen.</th>
-					<th>Usuário</th>
-                  </tr>
-                </thead>
-                <tbody>					
-				<?php 
-					$select = "SELECT cod_item, cod_operacao, desc_operacao, tipo, qtde, dat_moviment, usuario
-					FROM estoque_movnto
-					ORDER BY dat_moviment DESC";
-					$result = $mysqli->query($select);
 			
-					while($row = $result->fetch_assoc()){
-						echo "		
-						<tr>
-							<td>".$row['cod_item']."</td>
-							<td>".$row['cod_operacao']."</td>
-							<td>".$row['desc_operacao']."</td>
-							<td>".$row['tipo']."</td>
-							<td>".$row['qtde']."</td>
-							<td>".$row['dat_moviment']."</td>
-							<td>".$row['usuario']."</td>
-						</tr>";						  
-					}
-				
-				?>       
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-      </div>
+		<div id="content-wrapper">
+			
+			<div class="container-fluid">
+				<!-- Page Content -->
+				<h1>Histórico de Movimentação</h1>
+				<hr>
+				<br>		
+				<!-- Tabela -->
+				<div class="card mb-3">
+					<div class="card-header">
+						<i class="fas fa-table"></i>
+					Histórico de Movimentação</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-bordered table-striped table-hover tabela" id="dataTable">
+								<thead>
+									<tr>
+										<th>Cód. do Produto</th>
+										<th>Cód. Operação</th>
+										<th>Quantidade</th>
+										<th>Desc. Operação</th>
+										<th>Tipo Operação</th>
+										<th>Data Movimen.</th>
+										<th>Usuário</th>
+									</tr>
+								</thead>
+								<tbody>					
+									<?php 
+													
+										$select = "SELECT cod_item, cod_operacao, desc_operacao, tipo, qtde, dat_movimento, usuario
+										FROM estoque_movnto";
+										$result = $mysqli->query($select);
+								
+										while($row = $result->fetch_assoc()){
+											echo "		
+											<tr>
+												<td>".$row['cod_item']."</td>
+												<td>".$row['cod_operacao']."</td>
+												<td>".$row['qtde']."</td>							
+												<td>".$row['desc_operacao']."</td>
+												<td>".$row['tipo']."</td>
+												<td>".$row['dat_movimento']."</td>
+												<td>".$row['usuario']."</td>
+											</tr>";						  
+										}			
+									?>       
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
       <!-- /.container-fluid -->
 
       <!-- Sticky Footer -->
@@ -159,41 +135,35 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Quer realmente sair?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Selecione <b>Sair</b> abaixo para finalizar sua sessão atual.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-          <a class="btn btn-primary" href="finalizar_session.php">Sair</a>
-        </div>
-      </div>
-    </div>
-  </div>
+	<!-- Bootstrap core JavaScript-->
+	<script src="../requires/vendor/jquery/jquery.min.js"></script>
+	<script src="../requires/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	
+	<!-- SCRIPT PARA ORDERNAR A COLUNA 5 DE MANEIRA DESCENDENTE -->
+	<script>
+		$(document).ready(function() {
+			$('.tabela').DataTable( {
+				"order": [[ 5, "desc" ]] // "0" means First column and "desc" is order type; 
+			} );
+		} );
+	</script>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="../requires/vendor/jquery/jquery.min.js"></script>
-  <script src="../requires/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- Core plugin JavaScript-->
+	<script src="../requires/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-  <!-- Core plugin JavaScript-->
-  <script src="../requires/vendor/jquery-easing/jquery.easing.min.js"></script>
+	<!-- Page level plugin JavaScript-->
+	<script src="../requires/vendor/datatables/jquery.dataTables.js"></script>
+	<script src="../requires/vendor/datatables/dataTables.bootstrap4.js"></script>
 
-  <!-- Page level plugin JavaScript-->
-  <script src="../requires/vendor/datatables/jquery.dataTables.js"></script>
-  <script src="../requires/vendor/datatables/dataTables.bootstrap4.js"></script>
+	<!-- Custom scripts for all pages-->
+	<script src="../requires/js/sb-admin.min.js"></script>
 
-  <!-- Custom scripts for all pages-->
-  <script src="../requires/js/sb-admin.min.js"></script>
-
-  <!-- Demo scripts for this page-->
-  <script src="../requires/js/demo/datatables-demo.js"></script>
+	<!-- Demo scripts for this page-->
+	<script src="../requires/js/demo/datatables-demo.js"></script>
+  
+  
+  
+</head>
 
 </body>
 

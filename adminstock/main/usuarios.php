@@ -55,162 +55,112 @@ if($_SESSION['permissao'] != "1")
 </head>
 
 <body id="page-top">
+	<!-- BARRA DE NAVEGAÇÃO SUPERIOR -->
+	<?php require_once('nav_bar.php');?>
 
-  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-
-    <a class="navbar-brand mr-1" href="consulta_estoque.php">AdminStock</a>
-
-    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-      <i class="fas fa-bars"></i>
-    </button>
-	
-	
-    <!-- Navbar -->
-    <ul class="navbar-nav ml-auto">
-		<span style="margin-top: auto; margin-bottom: auto; color: white; float: right;"><?php echo "".$_SESSION['pri_nome']." ".$_SESSION['ult_nome']."&nbsp;&nbsp;"?></span>
-	  <li class="nav-item dropdown no-arrow">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-user-circle fa-fw"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">        
-		  <a class="dropdown-item" href="../login/trocar_senha.html">Mudar Senha</a>
-		  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Sair</a>
-        </div>
-      </li>	  
-    </ul>
-  </nav>
-
-  <div id="wrapper">
+	<div id="wrapper">
 
 	<!-- Menu lateral -->
 	<?php require_once('menu.php');?>
 
-    <div id="content-wrapper">
+		<div id="content-wrapper">
 
-      <div class="container-fluid">
+			<div class="container-fluid">
+			<!-- Page Content -->
+				<h1>Usuários</h1>
+				<hr>
+				<br>
+		
+				<!-- Tabela -->
+				<div class="card mb-3">
+					<div class="card-header">
+						<i class="fas fa-table"></i>
+					Usuários</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-bordered table-striped table-hover" id="dataTable">
+								<thead>
+									<tr>
+										<th>Login</th>
+										<th>Primeiro Nome</th>
+										<th>Último Nome</th>
+										<th>Email</th>
+										<th>Permissão Atual</th>
+										<th>Alterar Permissão</th>
+										<th>Apagar Usuário</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php 	
+										$select = "SELECT id, login, pri_nome, ult_nome, email, permissao
+										FROM usuario";
+										$result = $mysqli->query($select);
+								
+										while($row = $result->fetch_assoc()){	
+											
+											switch($row['permissao'])
+											{
+												case 1: 
+													$permissao = 'Total';
+													break;
+												case 2:
+													$permissao = 'Média';
+													break;
+												case 3:
+													$permissao = 'Mínima';
+													break;
+												case 4:
+													$permissao = 'Sem Acesso';
+													break;
+											}
+											echo "		
+											<tr>
+												<td id='alinhamento'>".$row['login']."</td>
+												<td id='alinhamento'>".$row['pri_nome']."</td>
+												<td id='alinhamento'>".$row['ult_nome']."</td>
+												<td id='alinhamento'>".$row['email']."</td>
+												<td id='alinhamento'>".$permissao."</td>
+												<form method='POST' action='interacao_bd/update_permissao.php'?>
+													<td>
+														<div class='form-group'>			
+															<select class='form-control' onchange='submitForm(this.form);' name='alt_perm'>								
+																<option value=''>Permissão</option>
+																<option value='1'>Total</option>
+																<option value='2'>Média</option>
+																<option value='3'>Mínima</option>
+																<option value='4'>Nenhuma</option>
+															</select>
+														</div>					
+													</td>
+													<input name='id' type=hidden value='".$row['id']."' />
+												</form>
+												<td align='center'><a onclick='deletaUsuario(".$row['id'].");' style='cursor: pointer;' class='fas fa-user-times fa-3x'></a></td>
+											</tr>";						  
+										}				
+										?>       
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div> <!-- /.container-fluid -->
+      
 
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">Usuários</li>
-        </ol>
-
-        <!-- DataTables Example -->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-table"></i>
-            Estoque</div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered table-striped table-hover" id="dataTable">
-                <thead>
-                  <tr>
-                    <th>Login</th>
-                    <th>Primeiro Nome</th>
-					<th>Último Nome</th>
-                    <th>Email</th>
-					<th>Permissão Atual</th>
-					<th>Alterar Permissão</th>
-					<th>Apagar Usuário</th>
-                  </tr>
-                </thead>
-                <tbody>
-				<?php 
-				
-					
-					
-					$select = "SELECT id, login, pri_nome, ult_nome, email, permissao
-					FROM usuario";
-					$result = $mysqli->query($select);
-			
-					while($row = $result->fetch_assoc()){	
-						
-						switch($row['permissao'])
-						{
-							case 1: 
-								$permissao = 'Total';
-								break;
-							case 2:
-								$permissao = 'Média';
-								break;
-							case 3:
-								$permissao = 'Mínima';
-								break;
-							case 4:
-								$permissao = 'Sem Acesso';
-								break;
-						}
-						echo "		
-						<tr>
-							<td id='alinhamento'>".$row['login']."</td>
-							<td id='alinhamento'>".$row['pri_nome']."</td>
-							<td id='alinhamento'>".$row['ult_nome']."</td>
-							<td id='alinhamento'>".$row['email']."</td>
-							<td id='alinhamento'>".$permissao."</td>
-							<form method='POST' action='interacao_bd/update_permissao.php'?>
-								<td>
-									<div class='form-group'>			
-										<select class='form-control' onchange='submitForm(this.form);' name='alt_perm'>								
-											<option value=''>Permissão</option>
-											<option value='1'>Total</option>
-											<option value='2'>Média</option>
-											<option value='3'>Mínima</option>
-											<option value='4'>Nenhuma</option>
-										</select>
-									</div>					
-								</td>
-								<input name='id' type=hidden value='".$row['id']."' />
-							</form>
-							<td align='center'><a onclick='deletaUsuario(".$row['id'].");' style='cursor: pointer;' class='fas fa-user-times fa-3x'></a></td>
-						</tr>";						  
-					}				
-				?>       
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <!-- /.container-fluid -->
-
-      <!-- Sticky Footer -->
-      <footer class="sticky-footer">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span class="nome-footer">AdminStock 2019</span>
-          </div>
-        </div>
-      </footer>
-
-    </div>
-    <!-- /.content-wrapper -->
-
-  </div>
-  <!-- /#wrapper -->
+			<!-- Sticky Footer -->
+			<footer class="sticky-footer">
+				<div class="container my-auto">
+					<div class="copyright text-center my-auto">
+						<span class="nome-footer">AdminStock 2019</span>
+					</div>
+				</div>
+			</footer>
+		</div> <!-- /.content-wrapper -->
+	</div> <!-- /#wrapper --> 
 
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Quer realmente sair?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Selecione <b>Sair</b> abaixo para finalizar sua sessão atual.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-          <a class="btn btn-primary" href="finalizar_session.php">Sair</a>
-        </div>
-      </div>
-    </div>
-  </div>
 
 	<script>
 		function submitForm(form){
@@ -222,11 +172,11 @@ if($_SESSION['permissao'] != "1")
 		}
 		
 		function deletaUsuario(link) {
-		var confirma = window.confirm("Tem certeza que deseja deletar esse usu\u00e1rio?");
-		if (confirma) {
-			window.location.href = "interacao_bd/delete_usuario.php?BoK2sW7fUfiDLs5Zugof="+link;
+			var confirma = window.confirm("Tem certeza que deseja deletar esse usu\u00e1rio?");
+			if (confirma) {
+				window.location.href = "interacao_bd/delete_usuario.php?BoK2sW7fUfiDLs5Zugof="+link;
+			}
 		}
-	}
 	</script>
 	
   <!-- Bootstrap core JavaScript-->

@@ -52,134 +52,90 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
 
 <body id="page-top">
 
-  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+	<!-- BARRA DE NAVEGAÇÃO SUPERIOR -->
+	<?php require_once('nav_bar.php');?>
 
-    <a class="navbar-brand mr-1" href="#">AdminStock</a>
+	<div id="wrapper">
 
-    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-      <i class="fas fa-bars"></i>
-    </button>
-	
-	
-    <!-- Navbar -->
-    <ul class="navbar-nav ml-auto">
-		<span style="margin-top: auto; margin-bottom: auto; color: white; float: right;"><?php echo "".$_SESSION['pri_nome']." ".$_SESSION['ult_nome']."&nbsp;&nbsp;"?></span>
-	  <li class="nav-item dropdown no-arrow">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-user-circle fa-fw"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">        
-		  <a class="dropdown-item" href="../login/trocar_senha.html">Mudar Senha</a>
-		  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Sair</a>
-        </div>
-      </li>	  
-    </ul>
-  </nav>
-
-  <div id="wrapper">
-
+	<!-- Menu lateral -->
 	<?php require_once('menu.php');?>
 
-    <div id="content-wrapper">
-
-      <div class="container-fluid">
-
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">Estoque</li>
-        </ol>
-
-        <!-- DataTables Example -->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-table"></i>
-            Estoque</div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered table-striped table-hover" id="dataTable">
-                <thead>
-                  <tr>
-                    <th>Cód. do Produto</th>
-                    <th>Desc. do Produto</th>
-                    <th>Categoria</th>
-					<th>Última Movimentação</th>
-                    <th>Saldo em Estoque</th>
-                  </tr>
-                </thead>
-                <tbody>
-				<tr>
-					<td>1</td>
-					<td>Monitor Asus 24' 60 Hz</td>
-					<td>Monitor Asus</td>
-					<td>28/02/2019 13:50:25</td>
-					<td>37</td>
-				<?php 
-			/*		$select = "SELECT 
-					FROM 
-					ORDER BY 1";
-					$result = $mysqli->query($select);
-			
-					while($row = $result->fetch_assoc()){
-						echo "		
-						<tr>
-							<td>".."</td>
-							<td>".."</td>
-							<td>".."</td>
-							<td>".."</td>
-							<td>".."</td>
-							<td>".."</td>
-							<td>".."</td>
-						</tr>";						  
-					}
-				*/
-				?>       
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <!-- /.container-fluid -->
-
-      <!-- Sticky Footer -->
-      <footer class="sticky-footer">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span class="nome-footer">AdminStock 2019</span>
-          </div>
-        </div>
-      </footer>
-
-    </div>
-    <!-- /.content-wrapper -->
-
-  </div>
-  <!-- /#wrapper -->
+		<div id="content-wrapper">
+			<div class="container-fluid">
+				<h1>Consultar Estoque</h1>
+				<hr>
+				<br>
+				<!-- Tabela -->
+				<div class="card mb-3">
+					<div class="card-header">
+						<i class="fas fa-table"></i>
+					Estoque Atual</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-bordered table-striped table-hover tabela" id="dataTable">
+								<thead>
+									<tr>
+										<th>Cód. do Produto</th>
+										<th>Desc. do Produto</th>
+										<th>Categoria</th>
+										<th>Última Movimentação</th>
+										<th>Saldo em Estoque</th>
+									</tr>
+								</thead>
+								<tbody>					
+									<?php 
+													
+										$select = "SELECT cod_item, item_desc, cod_categoria, saldo
+										FROM estoque";
+										$result = $mysqli->query($select);
+								
+										while($row = $result->fetch_assoc()){
+											
+											$select_cat = "SELECT desc_categoria
+											FROM categoria
+											WHERE cod_categoria = '{$row['cod_categoria']}' ";
+											$result_cat = $mysqli->query($select_cat);
+											$row_cat = $result_cat->fetch_assoc();					
+											
+											$select_dat = "SELECT dat_movimento
+											FROM estoque_movnto
+											WHERE cod_item = '{$row['cod_item']}'
+											ORDER BY dat_movimento DESC LIMIT 1";
+											$result_dat = $mysqli->query($select_dat);
+											$row_dat = $result_dat->fetch_assoc();
+						
+											echo "		
+											<tr>
+												<td>".$row['cod_item']."</td>
+												<td>".$row['item_desc']."</td>
+												<td>".$row_cat['desc_categoria']."</td>
+												<td>".$row_dat['dat_movimento']."</td>
+												<td>".$row['saldo']."</td>
+											</tr>";				  
+										}			
+									?>       
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>     <!-- /.container-fluid -->
+			<!-- Sticky Footer -->
+			<footer class="sticky-footer">
+				<div class="container my-auto">
+					<div class="copyright text-center my-auto">
+						<span class="nome-footer">AdminStock 2019</span>
+					</div>
+				</div>
+			</footer>
+		</div>  <!-- /.content-wrapper -->
+	</div> <!-- /#wrapper -->
+ 
 
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Quer realmente sair?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Selecione <b>Sair</b> abaixo para finalizar sua sessão atual.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-          <a class="btn btn-primary" href="finalizar_session.php">Sair</a>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Bootstrap core JavaScript-->
   <script src="../requires/vendor/jquery/jquery.min.js"></script>

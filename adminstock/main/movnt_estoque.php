@@ -57,53 +57,30 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 
 <body id="page-top">
 
-  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+	<!-- BARRA DE NAVEGAÇÃO SUPERIOR -->
+	<?php require_once('nav_bar.php');?>
 
-    <a class="navbar-brand mr-1" href="consulta_estoque.php">AdminStock</a>
-
-    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-      <i class="fas fa-bars"></i>
-    </button>
-	
-	
-    <!-- Navbar -->
-    <ul class="navbar-nav ml-auto">
-		<span style="margin-top: auto; margin-bottom: auto; color: white; float: right;"><?php echo "".$_SESSION['pri_nome']." ".$_SESSION['ult_nome']."&nbsp;&nbsp;"?></span>
-	  <li class="nav-item dropdown no-arrow">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-user-circle fa-fw"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">        
-		  <a class="dropdown-item" href="../login/trocar_senha.html">Mudar Senha</a>
-		  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Sair</a>
-        </div>
-      </li>	  
-    </ul>
-  </nav>
-
-  <div id="wrapper">
+	<div id="wrapper">
 
 	<!-- Menu lateral -->
 	<?php require_once('menu.php');?>
 
     <div id="content-wrapper">
-
-      <div class="container-fluid">
-
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">Movimentação de Estoque</li>
-        </ol>
-		
-		<div class="card card-register mx-auto mt-8" style="margin-bottom: 2rem;">
-			<div class="card-header">Movimentar Produtos</div>
+		<div class="container-fluid">
+			<!-- Page Content -->
+				<h1>Movimentação de Estoque</h1>
+				<hr>
+				<br>
+			
+			<div class="card card-register mx-auto mt-8" style="margin-bottom: 2rem;">
+				<div class="card-header">Movimentar Produtos</div>
 				<div class="card-body">				
 					<form id="busca" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 						<table class="col-md-12">
 							<tr>
 								<td>
 									<?php 
-										$select = "SELECT item_desc
+										$select = "SELECT item_desc, id
 										FROM item
 										ORDER BY item_desc";
 										$result = $mysqli->query($select);
@@ -116,12 +93,13 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 												
 										echo "<datalist id='categoria'>";
 										foreach($items as $item){
-											echo "<option value='".$item."'/>";                                                          
+											echo "<option value='".$item."'/>";											
 										}   
 										echo "</datalist>"; 
 									?>	
 								</td>
 								<td>
+									
 									<input style="width: 70%; margin-left: 15%; margin-right: 15%;" name="submit" type="submit" class="btn btn-primary btn-block" value="Buscar">
 								</td>
 							</tr>
@@ -132,23 +110,23 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 		
 
 <?php
-		if(isset($_POST['submit'])){
+	if(isset($_POST['submit'])){
 ?>			
 			<!-- Tabela -->		
 			<div class="card mb-3">
 				<div class="card-header">
 					<i class="fas fa-table"></i>
-					Estoque
+					Produto Selecionado
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
-						<table class="table table-bordered table-striped table-hover" id="dataTable">
+						<table class="table table-bordered table-striped table-hover">
 							<thead>
 								<tr>
 									<th>Cód. do Produto</th>
 									<th>Desc. do Produto</th>
 									<th>Quantidade Atual</th>
-									<th>Desc. Operação</th>
+									<th>Operação</th>
 									<th>Qtd. Para Movimentação</th>
 									<th>Confirmar Movimentação</th>
 								</tr>
@@ -165,10 +143,10 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 									<td id='alinhamento'>".$row['cod_item']."</td>
 									<td id='alinhamento'>".$row['item_desc']."</td>
 									<td id='alinhamento'>".$row['saldo']."</td>
-									<form method='POST' action='#'>
+									<form method='POST' action='interacao_bd/update_movn_estoque.php'>
 									<td>
 										<div class='form-group'>			
-											<select class='form-control' onchange='submitForm(this.form);' name='alt_perm' required>";						
+											<select class='form-control' onchange='submitForm(this.form);' name='cod_op' required>";						
 											
 											$select_op = "SELECT cod_operacao, desc_operacao, tipo
 											FROM operacao";								
@@ -183,23 +161,24 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 										</div>					
 									</td>
 									<td>
-										<input name='desc_prod' class='form-control' placeholder='Quantidade' required>
+										<input name='qtde' class='form-control' placeholder='Quantidade' required>
 									</td>
 									<td>
-										<button style='width: 50%; margin-left: 25%; margin-right: 25%;' type='submit' class='btn btn-success'>
+										<button style='width: 76%; margin-left: 12%; margin-right: 12%;' type='submit' class='btn btn-success'>
 											<i class='fa fa-arrow-circle-right fa-lg'> Confirmar</i>
 										</button>
 									</td>
+									<input type='hidden' value='".$_POST['item_desc']."' name='item_desc'/>
 									</form>
 								</tr>";						  
-								
 							?>
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
-<?php	}
+<?php	
+	}
 ?>
 		</div>
 
@@ -226,25 +205,6 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Quer realmente sair?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Selecione <b>Sair</b> abaixo para finalizar sua sessão atual.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-          <a class="btn btn-primary" href="finalizar_session.php">Sair</a>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Bootstrap core JavaScript-->
   <script src="../requires/vendor/jquery/jquery.min.js"></script>

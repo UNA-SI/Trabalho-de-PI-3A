@@ -18,5 +18,5 @@ if (ini_get("session.use_cookies")) {
 
 // Por último, destrói a sessão
 session_destroy();
-echo "<script>window.location.href='../../index.html';</script>"; // REDIRECIONA PARA A PÁGINA DE LOGIN
+echo "<script>window.location.href='../../../index.html';</script>"; // REDIRECIONA PARA A PÁGINA DE LOGIN
 ?>
