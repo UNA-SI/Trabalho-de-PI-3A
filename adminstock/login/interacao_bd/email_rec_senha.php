@@ -1,7 +1,7 @@
 <?php
 // Adiciona o arquivo class.phpmailer.php - você deve especificar corretamente o caminho da pasta com o este arquivo.
-require_once("../requires/autenvio/PHPMailerAutoload.php");
-require_once("../requires/connect.php");
+require_once("../../requires/autenvio/PHPMailerAutoload.php");
+require_once("../../requires/connect.php");
 
 $email = $_POST['email'];
 
@@ -12,7 +12,7 @@ if($result == "")
 { 	
 	echo "<script>
 	alert('Seu email n\u00e3o est\u00e1 cadastrado na base de dados!');
-	window.location.href='trocar_senha.html';
+	window.location.href='../trocar_senha.html';
 	</script>";
 }
 else{
@@ -60,12 +60,12 @@ else{
 	if ($enviado) {
 		echo "<script>
 		alert('E-mail enviado com sucesso!');
-		window.location.href='../../index.html';
+		window.location.href='../../../index.html';
 		</script>";
 	} else {
 		echo "<script>
 		alert('Não foi possível enviar o e-mail, tente novamente!');
-		window.location.href='trocar_senha.html';
+		window.location.href='../trocar_senha.html';
 		</script>";
 	    //echo "<b>Detalhes do erro:</b> " . $mail->ErrorInfo; // DEBUG
 	}
