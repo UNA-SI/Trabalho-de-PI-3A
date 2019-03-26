@@ -1,26 +1,23 @@
 ﻿<?php
-require_once("../../requires/connect.php");
+require_once("../../requires/connect.php");   // Conexao com o banco de dados
+require_once("../../requires/bcrypt.php");    // Classe Responsavel pela criptografia
+require_once("../../requires/functions.php"); // Funcoes
 
-// BUSCADO DADOS DO FORMULÁRIO DA PÁGINA DE CADASTRO E ARMAZENA EM NOVAS VARIAVÉIS
-
-$senha = hash('md5', $_POST['senha']);
-$pass_recovery = $_POST['recuperar_senha'];
-
-$update = "UPDATE usuario SET senha = '$senha' WHERE recuperar_senha = '$pass_recovery'";
-if ($mysqli->query($update) === TRUE) {
-	echo "<script>
-		  alert('Troca Realizada com sucesso!');
-		  window.location.href='../../../index.html';
-		  </script>";
-} else {
-   	echo "<script>
-		  alert('Falha ao realizar troca, tente novamente.');
-		  window.location.href='../definir_senha.php';
-		  </script>";
-
- //  echo "Error updating record: " . $conn->error; // DEBUG
+// criptografa a senha digitada
+$hash_pass = Bcrypt::hash($_POST['senha']);
+$update = "UPDATE usuario SET senha = '$hash_pass' WHERE recuperar_senha = '{$_POST['recuperar_senha']}'";
+$mysqli->query($update);
+if (mysqli_affected_rows($mysqli) == 0) { // Caso falhe, informa o usuario e pede para tentar novamente
+	Functions::alertaRedirect("Token expirado, solicite a troca de senha novamente!", "../definir_senha.php??zeqe0eZoda28goklt3W0={$_POST['recuperar_senha']}");
 }
-
-$mysqli->close(); // fecha a conexao
+// Gera novo hash para recuperar senha
+$novo_pass_rec = Bcrypt::generateRandomHash();
+// Salva o novo hash de recuperacao de senha no bd
+$update = "UPDATE usuario SET recuperar_senha = '$novo_pass_rec' WHERE recuperar_senha = '{$_POST['recuperar_senha']}'";
+$mysqli->query($update);
+if (mysqli_affected_rows($mysqli) == 0) { // Caso falhe, informa o usuario e pede para tentar novamente
+	Functions::alertaRedirect("Token expirado, solicite a troca de senha novamente!", "../definir_senha.php??zeqe0eZoda28goklt3W0={$_POST['recuperar_senha']}");
+}
+Functions::alertaRedirect("Troca Realizada com sucesso!", "../../../index.html"); // Informa o usuario que a troca foi bem sucedida.
 ?>
 	

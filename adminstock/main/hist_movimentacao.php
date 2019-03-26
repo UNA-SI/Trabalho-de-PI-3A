@@ -76,11 +76,12 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
 							<table class="table table-bordered table-striped table-hover tabela" id="dataTable">
 								<thead>
 									<tr>
-										<th>Cód. do Produto</th>
-										<th>Cód. Operação</th>
-										<th>Quantidade</th>
+										<th>Desc. Produto</th>
+										<th>Cód. Produto</th>
 										<th>Desc. Operação</th>
+										<th>Cód. Operação</th>																												
 										<th>Tipo Operação</th>
+										<th>Quantidade</th>
 										<th>Data Movimen.</th>
 										<th>Usuário</th>
 									</tr>
@@ -93,13 +94,20 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
 										$result = $mysqli->query($select);
 								
 										while($row = $result->fetch_assoc()){
+											$select_desc = "SELECT item_desc
+											FROM estoque
+											WHERE cod_item = '{$row['cod_item']}'";
+											$result_desc = $mysqli->query($select_desc);
+											$desc_prod = $result_desc->fetch_assoc();
+											
 											echo "		
 											<tr>
+												<td>".$desc_prod['item_desc']."</td>
 												<td>".$row['cod_item']."</td>
-												<td>".$row['cod_operacao']."</td>
-												<td>".$row['qtde']."</td>							
 												<td>".$row['desc_operacao']."</td>
+												<td>".$row['cod_operacao']."</td>
 												<td>".$row['tipo']."</td>
+												<td>".$row['qtde']."</td>																						
 												<td>".$row['dat_movimento']."</td>
 												<td>".$row['usuario']."</td>
 											</tr>";						  
@@ -143,7 +151,7 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
 	<script>
 		$(document).ready(function() {
 			$('.tabela').DataTable( {
-				"order": [[ 5, "desc" ]] // "0" means First column and "desc" is order type; 
+				"order": [[ 6, "desc" ]] // "0" means First column and "desc" is order type; 
 			} );
 		} );
 	</script>

@@ -44,4 +44,10 @@ class Bcrypt {
 	private static function __generateHashString($cost, $salt) {
 		return sprintf('$%s$%02d$%s$', self::$_saltPrefix, $cost, $salt);
 	}
+	
+	public static function generateRandomHash() {
+		$salt = self:: generateRandomSalt();
+		$hash = self::hash($salt);
+		return $hash;
+	}
 }
