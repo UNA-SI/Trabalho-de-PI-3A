@@ -25,7 +25,7 @@
 		// Verifica se o Email ja foi cadastrado
 		public function verificarEmail(){
 			// Busca se o email ja esta cadastrado
-			$select = $this->mysqli->query("SELECT email FROM usuario WHERE email='".$this->email."'");
+			$select = $this->mysqli->query("SELECT email FROM usuario WHERE email='{$this->email}'");
 			$result = $select->fetch_assoc();
 			if (!empty($result)){ // Caso esteja, imprime mensagem de erro e redirecionamento
 				Functions::alertaRedirect("Esse email j\u00e1 est\u00e1 cadastrado!", "../registrar.html");
