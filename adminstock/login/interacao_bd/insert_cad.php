@@ -64,4 +64,5 @@
 	$novoUsuario->verificarLogin();
 	$novoUsuario->criptografar();
 	$novoUsuario->salvarNoBanco(); 
+
 ?>
