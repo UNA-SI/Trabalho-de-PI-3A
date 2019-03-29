@@ -21,7 +21,7 @@
 
 <body class="bg-dark">
 
-  <div class="container">
+  <div class="container" style="margin-top: 9%;">
     <div class="card card-register mx-auto mt-5">
       <div class="card-header">Recuperar Senha</div>
       <div class="card-body">
