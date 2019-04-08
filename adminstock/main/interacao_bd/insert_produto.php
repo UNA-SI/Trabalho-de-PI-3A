@@ -1,61 +1,74 @@
 ﻿<?php
-	require_once("../../requires/connect.php");
+	require_once("../../requires/connect.php"); // CONEXAO COM O BD
+	require_once("../../requires/functions.php"); // FUNCOES
 	ini_set('default_charset', 'UTF-8'); // FAZ O BANCO ACEITAR ACENTUAÇÃO AO INSERIR ** IMPORTANTE **
 	mysqli_set_charset($mysqli, 'utf8'); // MUDA OS DADOS DO BANCO PARA UTF-8 - **IMPORTANTE**
 	
-	// BUSCADO DADOS DO FORMULÁRIO DA PÁGINA DE CADASTRO E ARMAZENA EM NOVAS VARIAVÉIS
-	$desc_prod = $_POST['desc_prod'];
-	$cat_desc = $_POST['cat_desc'];
-	
-	
-	// VERIFICA SE O ITEM JÁ FOI CADASTRADO
-	$select = "SELECT item_desc FROM item WHERE item_desc = '$desc_prod'";
-	$result = $mysqli->query($select);
-	
-	if ($result->num_rows == "") {	
+	//CLASSE RESPONSAVEL QUE INSERCAO DE NOVOS ITEMS AO BD
+	Class CadastrarProduto
+	{		
+		private $mysqli;
+		private $descProd;
+		private $codCat;
 		
-		// BUSCA O ID DO ITEM A PARTIR DA DESCRIÇÃO
-		$select = "SELECT cod_categoria FROM categoria WHERE desc_categoria = '$cat_desc'";
-		$result = $mysqli->query($select);
+		public function __construct($mysqli, $postDescProd, $postCodCat){
+			$this->mysqli = $mysqli;
+			$this->descProd = $postDescProd;
+			$this->codCat = $postCodCat;
+		}	
+		
+		public function verificaCadastroDuplicado()
+		{
+			// VERIFICA SE O ITEM JÁ FOI CADASTRADO
+			$select = $this->mysqli->query("
+			SELECT item_desc 
+			FROM item 
+			WHERE item_desc = '{$this->descProd}'");
+			$result = $select->fetch_assoc();
+			if (!empty($result)){
+				Functions::alertaRedirect("Produto j\u00e1 cadastrado!", "../cad_produto.php");
+			}			
+		}
 
-		
-		if ($result->num_rows > 0) { 
-		
-			$row = $result->fetch_assoc();
+		public function insereItem()
+		{
 			// INSERE OS DADOS CADASTRADOS NA TABELA DE ITEMS
 			$insert = "INSERT INTO item (item_desc, cod_categoria) 
-			VALUES('{$desc_prod}' ,'{$row['cod_categoria']}')";
-			
-			if ($mysqli->query($insert) === TRUE) { 
-			// QUANDO A INSERÇÃO É EXECUTADA COM SUCESSO, É CHAMADA A PÁGINA PARA O INSERT NA TABELA ESTOQUE, CASO TAMBÉM DE CERTO É MOSTRADA UMA MENSAGEM DE SUCESSO
-				require_once("insert_estoque.php"); 
-				echo "<script>
-				alert('Produto cadastrado com sucesso!');
-				window.location.href='../cad_produto.php';
-				</script>";
-				
-			}else{ // CASO ACONTEÇA UM ERRO AO CADASTRAR O ITEM, É MOSTRADA UMA MENSAGEM DE ERRO
-				echo "<script>
-				alert('Ocorreu um erro ao cadastrar o produto, tente novamente!');
-				window.location.href='../cad_produto.php';
-				</script>";
-			
-			//  echo "Error updating record: " . $mysqli->error;  // DEUBUG
+			VALUES('{$this->descProd}','{$this->codCat}')";
+			if($this->mysqli->query($insert) === TRUE){ // CASO A INSERCAO SEJA BEM SUCEDIDA, E DADO PROSEGUIMENTO
+				self::insereNoEstoque();
+			}else{
+				Functions::alertaRedirect("N\u00e3o foi poss\u00edvel cadastrar o item, tente novamente!", "../cad_produto.php");
 			}
-
-		}else{ // CASO NÃO SEJA POSSIVEL ENCONTRAR O ID, É MOSTRADA UMA MENSAGEM DE ERRO
-			echo "<script>
-			alert('Ocorreu um erro ao cadastrar o produto, tente novamente!');
-			window.location.href='../cad_produto.php';
-			</script>";
 		}
-	}else{ // CASO O ITEM JÁ TENHA SIDO CADASTRADO, É MOSTRADA UMA MENSAGEM DE ERRO
-		
-		echo "<script>
-		alert('Produto j\u00e1 cadastrado!');
-		window.location.href='../cad_produto.php';
-		</script>";
+		public function insereNoEstoque()
+		{
+			// BUSCA OS DADOS RECEM CADASTRADOS
+			$select = "
+				SELECT id, item_desc, cod_categoria 
+				FROM item 
+				WHERE item_desc = '{$this->descProd}' 
+				AND cod_categoria = '{$this->codCat}'
+			";
+			$result = $this->mysqli->query($select);
+			$row = $result->fetch_assoc();
+			if (!empty($result)){
+				// INSERE OS DADOS DO ITEM NA TBL ESTOQUE
+				$insert = "
+					INSERT INTO estoque (cod_item, item_desc, cod_categoria) 
+					VALUES('{$row['id']}' ,'{$row['item_desc']}', '{$row['cod_categoria']}')
+				";
+				if($this->mysqli->query($insert) === FALSE){
+					Functions::alertaRedirect("Ocorreu um erro ao cadastrar o produto, tente novamente!", "../cad_produto.php");
+				}
+			} else {
+				Functions::alertaRedirect("Ocorreu um erro ao cadastrar o produto, tente novamente!", "../cad_produto.php");
+			}
+			Functions::alertaRedirect("Produto cadastrado com sucesso!", "../cad_produto.php");
+		} 
 	}
-	$mysqli->close(); // fecha a conexao
+	$novoProduto = new CadastrarProduto($mysqli, $_POST['descProd'], $_POST['codCat']);	
+	$novoProduto->verificaCadastroDuplicado();
+	$novoProduto->insereItem(); 
 ?>
 	

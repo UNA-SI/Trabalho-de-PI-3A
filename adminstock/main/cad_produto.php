@@ -77,25 +77,10 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 										<div class="col-md-12">
 											<!-- DESCRIÇÃO DO PRODUTO -->
 											<div class="form-group">
-												<input name="desc_prod" class="form-control" placeholder="Desc. do Produto" required>
+												<input name="descProd" class="form-control" placeholder="Desc. do Produto" required>
 											</div><br>
 											<!-- CATEGORIA DO PRODUTO -->																																
 											<div class="form-group">												
-											<!-- OPÇÃO UTILIZANDO SELECT -->
-											<!--	<select name="tipo_op" class="form-control" required>
-												  <option value="">Categoria do Produto</option> -->
-												<?php 
-													/*$select = "SELECT desc_categoria
-													FROM categoria
-													ORDER BY desc_categoria";
-													$result = $mysqli->query($select);
-																																																
-													while($row = $result->fetch_assoc()){
-														echo "<option value=".$row['desc_categoria'].">".$row['desc_categoria']."</option>";	
-													}*/
-												?>
-												<!--</select> -->
-
 												<?php 
 													$select = "SELECT cod_categoria, desc_categoria
 													FROM categoria
@@ -104,13 +89,16 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 
 													while($row = $result->fetch_assoc()){
 															$categorias[] = $row['desc_categoria'];
+															$cod_categoria[] = $row['cod_categoria'];
 													}
-													echo "<input list='categoria' name='cat_desc' class='form-control' 
-													placeholder='Categoria do Produto' pattern='" . implode('|', $categorias) . "' required>";                                                                                                                                                                                                                                                                             
+													echo "<input list='categoria' name='codCat' class='form-control' 
+													placeholder='Categoria do Produto' pattern='" . implode('|', $cod_categoria) . "' required>";                                                                                                                                                                                                                                                                             
 												
 													echo "<datalist id='categoria'>";
-													foreach($categorias as $categoria){
-														echo "<option value='".$categoria."'/>";                                                          
+													$aux = 0;
+													foreach($cod_categoria as $cod){
+														echo "<option value='".$cod."'>".$categorias[$aux]."</option>";     
+														$aux ++;
 													}   
 													echo "</datalist>"; 
 												?>

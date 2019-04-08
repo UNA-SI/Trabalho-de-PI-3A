@@ -1,41 +1,44 @@
 ﻿<?php
-	require_once("../../requires/connect.php");
+	require_once("../../requires/connect.php"); // CONEXAO COM O BD
+	require_once("../../requires/functions.php"); // FUNCOES
 	ini_set('default_charset', 'UTF-8'); // FAZ O BANCO ACEITAR ACENTUAÇÃO AO INSERIR ** IMPORTANTE **
 	mysqli_set_charset($mysqli, 'utf8'); // MUDA OS DADOS DO BANCO PARA UTF-8 - **IMPORTANTE**
 	
-	// BUSCADO DADOS DO FORMULÁRIO DA PÁGINA DE CADASTRO E ARMAZENA EM NOVAS VARIAVÉIS
-	$desc_cat = $_POST['desc_cat'];
-
-	// É REALIZADA UMA BUSCA NO BANCO SE A CATEGORIA JÁ EXISTE
-	$select = $mysqli->query("SELECT desc_categoria FROM categoria WHERE desc_categoria='$desc_cat'");
-	$result = $select->fetch_assoc();
-	
-	
-	// CASO ELA EXISTA, O USUÁRIO É INFORMADO E REDIRECIONADO PARA A PÁGINA DE REGISTRO NOVAMENTE
-	if($result != "")
-	{ 	
-		echo "<script>
-			alert('Essa categoria j\u00e1 est\u00e1 cadastrada!');
-			window.location.href='../cad_categoria.php';
-			</script>";
-	}else{
-		$insert = "INSERT INTO categoria (desc_categoria) 
-		VALUES('$desc_cat')";
+	Class CadastrarCategoria
+	{
+		private $mysqli;
+		private $descCat;
 		
-		if ($mysqli->query($insert) === TRUE) {
-			echo "<script>
-			alert('Categoria cadastrada com sucesso!');
-			window.location.href='../cad_categoria.php';
-			</script>";
-		}else{
-			echo "<script>
-			alert('Ocorreu um erro ao cadastrar a categoria, tente novamente!');
-			window.location.href='../cad_categoria.php';
-			</script>";
-		//  echo "Error updating record: " . $mysqli->error;  // DEUBUG
+		public function __construct($mysqli, $postDescCat){
+			$this->mysqli = $mysqli;
+			$this->descCat = $postDescCat;
+		}	
+		
+		function verificaCadastroDuplicado()
+		{
+			// É REALIZADA UMA BUSCA NO BANCO SE A CATEGORIA JÁ EXISTE
+			$select = $this->mysqli->query("
+				SELECT desc_categoria 
+				FROM categoria 
+				WHERE desc_categoria='{$this->descCat}'");
+			$result = $select->fetch_assoc();
+			if (!empty($result)){ // CASO ESTEJA VAZIO, IMPRIME MENSAGEM DE ERRO E REDIRECIONAMENTO
+				Functions::alertaRedirect("Categoria j\u00e1 cadastrada!", "../cad_categoria.php");
+			}	
+		}
+	
+		function insereCategoria()
+		{
+			$insert = "INSERT INTO categoria (desc_categoria) 
+			VALUES('{$this->descCat}')";
+			if($this->mysqli->query($insert) === FALSE){
+				Functions::alertaRedirect("Ocorreu um erro ao cadastrar a categoria, tente novamente!", "../cad_categoria.php");
+			}
+			Functions::alertaRedirect("Categoria cadastrada com sucesso!", "../cad_categoria.php");
 		}
 	}
-	
-	$mysqli->close(); // fecha a conexao
+
+$novaCategoria = new CadastrarCategoria($mysqli, $_POST['desc_cat']);	
+$novaCategoria->verificaCadastroDuplicado();
+$novaCategoria->insereCategoria(); 
 ?>
-	
