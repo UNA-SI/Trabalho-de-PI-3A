@@ -3,7 +3,7 @@
 	require_once("../../requires/bcrypt.php");    // Classe Responsavel pela criptografia
 	require_once("../../requires/functions.php"); // Funcoes
 
-	$select = "SELECT usuario FROM relatorios_usuarios WHERE recuperar_senha = '{$_POST['recuperar_senha']}'";
+	$select = "SELECT recuperar_senha FROM usuario WHERE recuperar_senha = '{$_POST['recuperar_senha']}'";
 	$mysqli->query($select);
 	if ($mysqli->num_rows == 0){ // Caso nao encontre o token, pede para solocitar um novo token
 		Functions::alertaRedirect("Token expirado, solicite a troca de senha novamente!", "../trocar_senha.html");

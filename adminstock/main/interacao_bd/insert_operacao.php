@@ -1,9 +1,8 @@
 ﻿<?php
 	require_once("../../requires/connect.php"); // CONEXAO COM O BD
-	require_once("../../requires/functions.php"); // FUNCOES
 	ini_set('default_charset', 'UTF-8'); // FAZ O BANCO ACEITAR ACENTUAÇÃO AO INSERIR ** IMPORTANTE **
 	mysqli_set_charset($mysqli, 'utf8'); // MUDA OS DADOS DO BANCO PARA UTF-8 - **IMPORTANTE**
-	
+	require_once("../../requires/functions.php"); // FUNCOES
 	
 	Class CadastroOperacao
 	{		
