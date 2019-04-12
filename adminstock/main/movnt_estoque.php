@@ -1,23 +1,13 @@
 <?php
-require_once("../requires/connect.php");
-mysqli_set_charset( $mysqli, 'utf8'); // MUDA OS DADOS DO BANCO PARA UTF-8 - **IMPORTANTE**
-session_start();
-// checa se a SESSION expirou
-if($_SESSION['login'] == "" && $_SESSION['permissao'] == "") 
-{
-  	echo "<script>
-			alert('Login expirado, entre novamente.');
-			window.location.href='../../index.html';
-		  </script>";
-}
-// Verifica permissão do usuário ao acesso da página
-if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2") 
-{
-  	echo "<script>
-			alert('Voc\u00ea n\u00e3o tem acesso a essa p\u00e1gina, fale com o administrador para poder acessar.');
-			window.location.href='../../index.html';
-		  </script>";
-}
+require_once("../requires/connect.php"); // CONEXAO COM O BD
+require_once("../requires/functions.php"); // FUNCOES
+require_once("interacao_bd/selectBd.php"); // FUNCOES
+SESSION_START();
+
+$permissaoPagina = 3; // Permissao da pagina atual (basica)
+$funcao = new Functions($mysqli);
+// Confere se o usuario realizou o login e tem permissao de acesso
+$funcao->checaLogin( $_SESSION['login'], $_SESSION['permissao'], $permissaoPagina);	
 ?>
 
 <!DOCTYPE html>
@@ -98,8 +88,7 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 										echo "</datalist>"; 
 									?>	
 								</td>
-								<td>
-									
+								<td>								
 									<input style="width: 70%; margin-left: 15%; margin-right: 15%;" name="submit" type="submit" class="btn btn-primary btn-block" value="Buscar">
 								</td>
 							</tr>
@@ -109,9 +98,7 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 			</div>
 		
 
-<?php
-	if(isset($_POST['submit'])){
-?>			
+<?php if(isset($_POST['submit'])){ // Caso o produto tenha sido selecionado, e gerada a tabela com os dados do mesmo?>			
 			<!-- Tabela -->		
 			<div class="card mb-3">
 				<div class="card-header">
@@ -133,53 +120,15 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 							</thead>
 							<tbody>
 							<?php
-								$select = "SELECT cod_item, item_desc, saldo
-								FROM estoque
-								WHERE item_desc = '{$_POST['item_desc']}'";								
-								$result = $mysqli->query($select);					
-								$row = $result->fetch_assoc();
-								echo "		
-								<tr>
-									<td id='alinhamento'>".$row['cod_item']."</td>
-									<td id='alinhamento'>".$row['item_desc']."</td>
-									<td id='alinhamento'>".$row['saldo']."</td>
-									<form method='POST' action='interacao_bd/update_movn_estoque.php'>
-									<td>
-										<div class='form-group'>			
-											<select class='form-control' onchange='submitForm(this.form);' name='cod_op' required>";						
-											
-											$select_op = "SELECT cod_operacao, desc_operacao, tipo
-											FROM operacao";								
-											$result_op = $mysqli->query($select_op);
-											
-											echo "<option value=''>Operação</option>";
-											while($row_op = $result_op->fetch_assoc()){											
-												echo"	
-												<option value='".$row_op['cod_operacao']."'>".$row_op['desc_operacao']."</option>";
-											}
-								echo"		</select>
-										</div>					
-									</td>
-									<td>
-										<input name='qtde' class='form-control' placeholder='Quantidade' required>
-									</td>
-									<td>
-										<button style='width: 76%; margin-left: 12%; margin-right: 12%;' type='submit' class='btn btn-success'>
-											<i class='fa fa-arrow-circle-right fa-lg'> Confirmar</i>
-										</button>
-									</td>
-									<input type='hidden' value='".$_POST['item_desc']."' name='item_desc'/>
-									</form>
-								</tr>";						  
+	  							$dados = new BuscaDados($mysqli);
+	  							$dados->movimentacaoEstoque();	// Gera a tabela de estoque					  
 							?>
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
-<?php	
-	}
-?>
+<?php } ?>
 		</div>
 
 

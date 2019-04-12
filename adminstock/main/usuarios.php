@@ -1,23 +1,13 @@
 <?php
-require_once("../requires/connect.php");
-mysqli_set_charset( $mysqli, 'utf8'); // MUDA OS DADOS DO BANCO PARA UTF-8 - **IMPORTANTE**
-session_start();
-// checa se a SESSION expirou
-if($_SESSION['login'] == "" && $_SESSION['permissao'] == "") 
-{
-  	echo "<script>
-			alert('Login expirado, entre novamente.');
-			window.location.href='../../index.html';
-		  </script>";
-}
-// Verifica permissão do usuário ao acesso da página
-if($_SESSION['permissao'] != "1") 
-{
-  	echo "<script>
-			alert('Voc\u00ea n\u00e3o tem acesso a essa p\u00e1gina, fale com o administrador para poder acessar.');
-			window.location.href='../../index.html';
-		  </script>";
-}
+require_once("../requires/connect.php"); // CONEXAO COM O BD
+require_once("../requires/functions.php"); // FUNCOES
+require_once("interacao_bd/selectBd.php"); // FUNCOES
+SESSION_START();
+
+$permissaoPagina = 3; // Permissao da pagina atual (basica)
+$funcao = new Functions($mysqli);
+// Confere se o usuario realizou o login e tem permissao de acesso
+$funcao->checaLogin( $_SESSION['login'], $_SESSION['permissao'], $permissaoPagina);	
 ?>
 
 <!DOCTYPE html>
@@ -92,52 +82,9 @@ if($_SESSION['permissao'] != "1")
 								</thead>
 								<tbody>
 									<?php 	
-										$select = "SELECT id, login, pri_nome, ult_nome, email, permissao
-										FROM usuario";
-										$result = $mysqli->query($select);
-								
-										while($row = $result->fetch_assoc()){	
-											
-											switch($row['permissao'])
-											{
-												case 1: 
-													$permissao = 'Total';
-													break;
-												case 2:
-													$permissao = 'Média';
-													break;
-												case 3:
-													$permissao = 'Mínima';
-													break;
-												case 4:
-													$permissao = 'Sem Acesso';
-													break;
-											}
-											echo "		
-											<tr>
-												<td id='alinhamento'>".$row['login']."</td>
-												<td id='alinhamento'>".$row['pri_nome']."</td>
-												<td id='alinhamento'>".$row['ult_nome']."</td>
-												<td id='alinhamento'>".$row['email']."</td>
-												<td id='alinhamento'>".$permissao."</td>
-												<form method='POST' action='interacao_bd/update_permissao.php'?>
-													<td>
-														<div class='form-group'>			
-															<select class='form-control' onchange='submitForm(this.form);' name='alt_perm'>								
-																<option value=''>Permissão</option>
-																<option value='1'>Total</option>
-																<option value='2'>Média</option>
-																<option value='3'>Mínima</option>
-																<option value='4'>Nenhuma</option>
-															</select>
-														</div>					
-													</td>
-													<input name='id' type=hidden value='".$row['id']."' />
-												</form>
-												<td align='center'><a onclick='deletaUsuario(".$row['id'].");' style='cursor: pointer;' class='fas fa-user-times fa-3x'></a></td>
-											</tr>";						  
-										}				
-										?>       
+  										$dados = new BuscaDados($mysqli);
+	  									$dados->dadosUsuarios();	// Gera a tabela de estoque					  
+									?>       
 								</tbody>
 							</table>
 						</div>

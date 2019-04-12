@@ -1,23 +1,13 @@
 <?php
-require_once("../requires/connect.php");
-mysqli_set_charset( $mysqli, 'utf8'); // MUDA OS DADOS DO BANCO PARA UTF-8 - **IMPORTANTE**
-session_start();
-// checa se a SESSION expirou
-if($_SESSION['login'] == "" && $_SESSION['permissao'] == "") 
-{
-  	echo "<script>
-			alert('Login expirado, entre novamente.');
-			window.location.href='../../index.html';
-		  </script>";
-}
-// Verifica permissão do usuário ao acesso da página
-if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['permissao'] != "3") 
-{
-  	echo "<script>
-			alert('Voc\u00ea n\u00e3o tem acesso a essa p\u00e1gina, fa\u00e7a o login para poder acessar.');
-			window.location.href='../../index.html';
-		  </script>";
-}
+require_once("../requires/connect.php"); // CONEXAO COM O BD
+require_once("../requires/functions.php"); // FUNCOES
+require_once("interacao_bd/selectBd.php"); // FUNCOES
+SESSION_START();
+
+$permissaoPagina = 3; // Permissao da pagina atual (basica)
+$funcao = new Functions($mysqli);
+// Confere se o usuario realizou o login e tem permissao de acesso
+$funcao->checaLogin( $_SESSION['login'], $_SESSION['permissao'], $permissaoPagina);	
 ?>
 
 <!DOCTYPE html>
@@ -84,35 +74,8 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2" & $_SESSION['p
 								</thead>
 								<tbody>					
 									<?php 
-													
-										$select = "SELECT cod_item, item_desc, cod_categoria, saldo
-										FROM estoque";
-										$result = $mysqli->query($select);
-								
-										while($row = $result->fetch_assoc()){
-											
-											$select_cat = "SELECT desc_categoria
-											FROM categoria
-											WHERE cod_categoria = '{$row['cod_categoria']}' ";
-											$result_cat = $mysqli->query($select_cat);
-											$row_cat = $result_cat->fetch_assoc();					
-											
-											$select_dat = "SELECT dat_movimento
-											FROM estoque_movnto
-											WHERE cod_item = '{$row['cod_item']}'
-											ORDER BY dat_movimento DESC LIMIT 1";
-											$result_dat = $mysqli->query($select_dat);
-											$row_dat = $result_dat->fetch_assoc();
-						
-											echo "		
-											<tr>
-												<td>".$row['cod_item']."</td>
-												<td>".$row['item_desc']."</td>
-												<td>".$row_cat['desc_categoria']."</td>
-												<td>".$row_dat['dat_movimento']."</td>
-												<td>".$row['saldo']."</td>
-											</tr>";				  
-										}			
+			  							$dados = new BuscaDados($mysqli);
+			  							$dados->consultaEstoque();	// Gera a tabela de estoque	
 									?>       
 								</tbody>
 							</table>
