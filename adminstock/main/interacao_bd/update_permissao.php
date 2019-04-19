@@ -1,26 +1,33 @@
 <?php 
-	require_once("../../requires/connect.php");
-	ini_set('default_charset', 'UTF-8'); // FAZ O BANCO ACEITAR ACENTUAÇÃO AO INSERIR ** IMPORTANTE **
-	mysqli_set_charset($mysqli, 'utf8'); // MUDA OS DADOS DO BANCO PARA UTF-8 - **IMPORTANTE**
-	
-	$id = $_POST['id'];
-	$perm = $_POST['alt_perm'];
-	
-	
-	$update = "UPDATE usuario SET permissao='$perm' WHERE id='$id'";
+	require_once("../../requires/connect.php");   // Conexao com o banco de dados
+	require_once("../../requires/functions.php"); // Funcoes
 
-	if ($mysqli->query($update) === TRUE) {
-		echo "<script>
-		alert('Permiss\u00e3o alterada com sucesso!');
-		window.location.href='../usuarios.php';
-		</script>";
-	} else {
-		echo "<script>
-		alert('Ocorreu um erro, tente novamente!');
-		window.location.href='../usuarios.php';
-		</script>";
-		// echo "Error updating record: " . $mysqli->error; DEBUG
+class Usuario
+{
+	private $mysqli; // Conexao com o banco de dados
+	private $idUser; // ID do usuario
+	private $novaPermissao; // Nova permissao atribuida ao usuario
+
+	function __construct($mysqli, $idUser, $novaPermissao)
+	{
+		$this->mysqli = $mysqli; // Conexao com o banco de dados
+		$this->idUser = $idUser; // Token utilizado pelo usuario
+		$this->novaPermissao = $novaPermissao; // Senha digitada pelo usuario
 	}
 
-$mysqli->close();
+	public function atualizarPermissao() // Atualizar a permissao do usuario no banco
+	{
+		$update = "
+			UPDATE usuario 
+			SET permissao='{$this->novaPermissao}'
+			WHERE id='$this->idUser'";		
+		if ($this->mysqli->query($update) === FALSE) {
+			Functions::alertaRedirect("Ocorreu um erro, tente novamente!", "../usuarios.php");
+		}
+		Functions::alertaRedirect("Permiss\u00e3o alterada com sucesso!", "../usuarios.php");
+	}
+
+}		
+$usuario = new Usuario($mysqli, $_POST['id'], $_POST['alt_perm']); // Instancia o objeto e passa parametros a classe
+$usuario->atualizarPermissao(); // Atualizar a permissao do usuario no banco
 ?>

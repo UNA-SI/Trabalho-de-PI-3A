@@ -79,7 +79,7 @@ $funcao->checaLogin( $_SESSION['login'], $_SESSION['permissao'], $permissaoPagin
 											$items[] = $row['item_desc'];
 										}
 										echo "<input list='categoria' name='item_desc' class='form-control' 
-										placeholder='Nome do Produto' pattern='" . implode('|', $items) . "' required>";                                                                                                                                                                                                                                                                             
+										placeholder='Nome do Produto' pattern='" . implode('|', $items) . "' autocomplete='off' required>";                                                                                                                                                                                                                                                                             
 												
 										echo "<datalist id='categoria'>";
 										foreach($items as $item){

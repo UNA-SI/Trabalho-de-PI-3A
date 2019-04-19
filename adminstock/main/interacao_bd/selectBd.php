@@ -127,7 +127,7 @@
 					<td>
 						<button style='width: 76%; margin-left: 12%; margin-right: 12%;' type='submit' class='btn btn-success'>Confirmar</button>
 					</td>
-					<input type='hidden' value='".$row['item_desc']."' name='item_desc'/>
+					<input type='hidden' value='".$row['cod_item']."' name='cod_item'/>
 				</form>
 			</tr>";	
 
