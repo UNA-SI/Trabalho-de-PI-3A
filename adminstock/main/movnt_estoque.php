@@ -121,7 +121,7 @@ $funcao->checaLogin( $_SESSION['login'], $_SESSION['permissao'], $permissaoPagin
 							<tbody>
 							<?php
 	  							$dados = new BuscaDados($mysqli);
-	  							$dados->movimentacaoEstoque();	// Gera a tabela de estoque					  
+	  							$dados->movimentacaoEstoque($_SESSION['permissao']);	// Gera a tabela de estoque					  
 							?>
 							</tbody>
 						</table>

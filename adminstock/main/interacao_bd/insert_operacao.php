@@ -16,6 +16,20 @@
 			$this->tipoOp = $postTipoOp;
 		}	
 		
+		public function verificaCadastroDuplicado()
+		{
+			// VERIFICA SE O ITEM JÁ FOI CADASTRADO
+			$select = $this->mysqli->query("
+			SELECT desc_operacao, tipo
+			FROM operacao
+			WHERE desc_operacao = '{$this->descOp}'
+			AND tipo = '{$this->tipoOp}'");
+			$result = $select->fetch_assoc();
+			if (!empty($result)){
+				Functions::alertaRedirect("Opera\u00e7\u00e3o j\u00e1 cadastrada!", "../cad_operacao.php");
+			}			
+		}
+
 		public function inseirOperacao()
 		{
 			$insert = "INSERT INTO operacao (desc_operacao, tipo) 
@@ -28,6 +42,7 @@
 		}	
 	}
 	$novaOperacao = new CadastroOperacao($mysqli, $_POST['desc_op'], $_POST['tipo_op']);
+	$novaOperacao->verificaCadastroDuplicado();
 	$novaOperacao->inseirOperacao();
 	
 ?>

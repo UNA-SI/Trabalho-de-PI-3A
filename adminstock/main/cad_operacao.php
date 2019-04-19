@@ -69,7 +69,7 @@ if($_SESSION['permissao'] != "1" && $_SESSION['permissao'] != "2")
 				<br>
 				<div class="container">
 					<div class="card card-register mx-auto mt-8">
-						<div class="card-header">Novo Produto</div>
+						<div class="card-header">Nova Operação</div>
 						<div class="card-body">
 							<form method="POST" action="interacao_bd/insert_operacao.php">
 								<div class="form-group">
