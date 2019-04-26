@@ -92,10 +92,10 @@
 
 
 		// Movimentacao de estoque *INICIO*
-		public function movimentacaoEstoque($permissao) // Gera dados para tabela movimentacao de estoque
+		public function movimentacaoEstoque() // Gera dados para tabela movimentacao de estoque
 		{
 			
-			self::operacoes($permissao); // Gera o select(html) com as operacoes do bd
+			self::operacoes(); // Gera o select(html) com as operacoes do bd
 
 			// Busca dados do item
 			$select = "
@@ -134,17 +134,12 @@
 			echo $this->movimentacao; // Imprime a linha da tabela
 		}
 
-		public function operacoes($permissao) // Gera o select(html) com todas as operacoes
+		public function operacoes() // Gera o select(html) com todas as operacoes
 		{
-			$filtro = "";
-			if($permissao != 1){ // Caso o usuario nao pussua permissao total, remove a operacao deletar
-				$filtro = "WHERE tipo != 'D'";
-			}
 			// Busca todas operacoes salvas no banco
 			$select = "
 				SELECT cod_operacao, desc_operacao, tipo
-				FROM operacao
-				{$filtro}";								
+				FROM operacao";								
 			$result = $this->mysqli->query($select);
 			
 			$this->operacoes .= "
