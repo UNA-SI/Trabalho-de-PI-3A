@@ -121,7 +121,7 @@ $funcao->checaLogin( $_SESSION['login'], $_SESSION['permissao'], $permissaoPagin
 		function deletaUsuario(link) {
 			var confirma = window.confirm("Tem certeza que deseja deletar esse usu\u00e1rio?");
 			if (confirma) {
-				window.location.href = "interacao_bd/delete_usuario.php?BoK2sW7fUfiDLs5Zugof="+link;
+				window.location.href = "interacao_bd/deleteBd.php?BoK2sW7fUfiDLs5Zugof="+link;
 			}
 		}
 	</script>

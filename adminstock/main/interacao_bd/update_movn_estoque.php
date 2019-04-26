@@ -2,6 +2,7 @@
 echo $_POST['cod_item'];
 	require_once("../../requires/connect.php");   // Conexao com o banco de dados
 	require_once("../../requires/functions.php"); // Funcoes
+	require_once("deleteBd.php"); // Deletar produto
  // Inicia a sessao
 	SESSION_START(); // Inicia a sessao
 	
@@ -15,6 +16,7 @@ class Movimentacao
 	private $tipoOp; // Tipo de operacao
 	private $descOp; // Descricao da operacao
 	private $nome; // Nome do usuario que realizou a operacao
+	private $itemDesc; // Descricao do item
 
 	function __construct($mysqli, $quantidade, $codOp, $codItem)
 	{
@@ -28,7 +30,7 @@ class Movimentacao
 	public function buscadoSaldoEstoque() // Busca no banco de dados o saldo do item
 	{
 		$select = "
-			SELECT saldo
+			SELECT saldo, item_desc
 			FROM estoque 
 			WHERE cod_item = '{$this->codItem}'";
 		$result = $this->mysqli->query($select);
@@ -36,6 +38,7 @@ class Movimentacao
 			Functions::alertaRedirect("Item n\u00e3o encontrado!", "../movnt_estoque.php");
 		}
 		$row = $result->fetch_assoc();
+		$this->itemDesc = $row['item_desc']; 
 		$this->saldo = $row['saldo']; // Armazena na variavel da classe o saldo do item
 	}
 	public function buscaOperacao() // Busca no banco de dados a operacao utilizada
@@ -62,6 +65,10 @@ class Movimentacao
 			case 'S': // Operacao de saida
 				$this->saldo = $this->saldo - $this->quantidade;
 				break;
+			case 'D':
+				deletaDados::deletarProduto($this->mysqli, $this->itemDesc, $this->codItem, $this->codOp ,
+				 $this->descOp, $this->tipoOp, $this->nome);
+				exit; // Interrompe a execucao do codigo
 		}
 		if($this->saldo < 0){ // Caso o saldo final seja negativo, e dada uma msg de erro
 			Functions::alertaRedirect("N\u00e3o existem produtos suficientes no estoque!", "../movnt_estoque.php");
@@ -72,8 +79,8 @@ class Movimentacao
 	{
 		// Salva o log da movimentacao no banco de dados
 		$insert = "
-			INSERT INTO estoque_movnto (cod_item, cod_operacao, desc_operacao, tipo, qtde, dat_movimento, usuario) 
-			VALUES('{$this->codItem}', '{$this->codOp}', '{$this->descOp}', '{$this->tipoOp}', '{$this->quantidade}', NOW(), '{$this->nome}')";
+			INSERT INTO estoque_movnto (item_desc, cod_item, cod_operacao, desc_operacao, tipo, qtde, dat_movimento, usuario) 
+			VALUES('{$this->itemDesc}','{$this->codItem}', '{$this->codOp}', '{$this->descOp}', '{$this->tipoOp}', '{$this->quantidade}', NOW(), '{$this->nome}')";
 		if ($this->mysqli->query($insert) === FALSE) { // Caso a insercao falhe, uma msg de erro e dada
 			Functions::alertaRedirect("Ocorreu um erro ao realizar a movimenta\u00e7\u00e3o, tente novamente!", "../movnt_estoque.php");	
 		}

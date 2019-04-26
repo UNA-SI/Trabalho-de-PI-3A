@@ -66,9 +66,8 @@
 		{
 			// Busca dados das movimentacoes
 			$select = "
-				SELECT a.cod_item, a.cod_operacao, a.desc_operacao, a.tipo, a.qtde, a.dat_movimento, a.usuario, b.item_desc
-				FROM estoque_movnto a, estoque b
-				WHERE a.cod_item = b.cod_item";
+				SELECT cod_item, cod_operacao, desc_operacao, tipo, qtde, dat_movimento, usuario, item_desc
+				FROM estoque_movnto";
 			$result = $this->mysqli->query($select);
 			self::checaBuscaVazia($result); // Confere se o select retornou algo
 
@@ -122,7 +121,7 @@
 						</div>					
 					</td>
 					<td>
-						<input name='qtde' class='form-control' placeholder='Quantidade' required>
+						<input name='qtde' class='form-control' placeholder='Quantidade'>
 					</td>
 					<td>
 						<button style='width: 76%; margin-left: 12%; margin-right: 12%;' type='submit' class='btn btn-success'>Confirmar</button>
